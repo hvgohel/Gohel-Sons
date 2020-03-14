@@ -4,58 +4,59 @@
     <title>Dashboard</title>
 </head>
 <body>
+
 <section layout:fragment="header">
     <h1>Students and customers</h1>
 </section>
 
 <div layout:fragment="content">
-   <div class="box">
-        <div class="box-header with-border">
-            <h3 class="box-title"></h3>
-            <div class="box-tools pull-right">
-               <input type="text">
-            </div>
-        </div>
-        <div class="box-body no-padding">
-            <table class="table table-striped">
-                <tr>
-                    <th width="7%"></th>
-                    <th>School Name</th>
-                    <th>Name</th>
-                    <th>Gender</th>
-                    <th>Address</th>
-                    <th>Delivery Date</th>
-                    <th>Registration Date</th>
-                </tr>
-                <tr th:each="row : ${list}">
-                    <td>
-                       &nbsp; 
-                       <a th:href="${row.school == null ? '/customers/edit/' + row.id : '/students/edit/' + row.id}" class="glyphicon glyphicon-pencil">&nbsp;</a> 
-                       <a th:href="${row.school == null ? '/customers/delete/'  + row.id : '/students/delete/' + row.id}" class="glyphicon glyphicon-trash"></a>
-                    </td>
-                    <td th:text="${row.school == null ? 'Customer' : row.school.name}"></td>
-                    <td th:text="${row.name}"></td>
-                    <td th:text="${row.school == null ? (row.gender == 'male' ? 'Male' : 'Female') : (row.gender == 'male' ? 'Boy' : 'Girl') }"></td>
-                    <td th:text="${row.address}"></td>
-                    <td th:text="${row.deliveryDate}"></td>
-                    <td th:text="${#dates.format(row.created, 'dd-MMM-yyyy hh:mm:ss')}"></td>
-                </tr>
-                <tr th:if="${list.isEmpty()}">
-                    <td></td>
-                    <td colspan="6"><b>No Data Found</b></td>
-                 </tr>
-            </table>
-        </div>
-        <div th:if="${!list.isEmpty()}" class="box-footer clearfix">
-            <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="/1">Previous</a></li>
-                <li th:each="p : ${#numbers.sequence(1, endIndex/beginIndex)}" th:class="${p == currentIndex} ? 'active' : ''">
-                    <a th:href="${'/' + p}" th:text="${p}"></a>
-                </li>
-                <li><a th:href="${'/' + endIndex}">Next</a></li>
-            </ul>
-        </div>
+  <div class="box">
+     <div class="box-header with-border">
+         <h3 class="box-title"></h3>
+         <div class="box-tools pull-right">
+            <input type="text">
+         </div>
+     </div>
+     <div class="box-body no-padding">
+         <table class="table table-striped">
+             <tr>
+                 <th width="7%"></th>
+                 <th>School Name</th>
+                 <th>Name</th>
+                 <th>Gender</th>
+                 <th>Address</th>
+                 <th>Delivery Date</th>
+                 <th>Registration Date</th>
+             </tr>
+             <tr th:each="row : ${list}">
+                 <td>
+                    &nbsp; 
+                    <a th:href="${row.school == null ? '/customers/edit/' + row.id : '/students/edit/' + row.id}" class="glyphicon glyphicon-pencil">&nbsp;</a> 
+                    <a th:href="${row.school == null ? '/customers/delete/'  + row.id : '/students/delete/' + row.id}" class="glyphicon glyphicon-trash"></a>
+                 </td>
+                 <td th:text="${row.school == null ? 'Customer' : row.school.name}"></td>
+                 <td th:text="${row.name}"></td>
+                 <td th:text="${row.school == null ? (row.gender == 'male' ? 'Male' : 'Female') : (row.gender == 'male' ? 'Boy' : 'Girl') }"></td>
+                 <td th:text="${row.address}"></td>
+                 <td th:text="${row.deliveryDate}"></td>
+                 <td th:text="${#dates.format(row.created, 'dd-MMM-yyyy hh:mm:ss')}"></td>
+             </tr>
+             <tr th:if="${list.isEmpty()}">
+                 <td></td>
+                 <td colspan="6"><b>No Data Found</b></td>
+              </tr>
+         </table>
+     </div>
+    <div th:if="${!list.isEmpty()}" class="box-footer clearfix">
+        <ul class="pagination pagination-sm no-margin pull-right">
+            <li><a href="/1">Previous</a></li>
+            <li th:each="p : ${#numbers.sequence(1, endIndex/beginIndex)}" th:class="${p == currentIndex} ? 'active' : ''">
+                <a th:href="${'/' + p}" th:text="${p}"></a>
+            </li>
+            <li><a th:href="${'/' + endIndex}">Next</a></li>
+        </ul>
     </div>
+  </div>
 </div>
 </body>
 </html>
