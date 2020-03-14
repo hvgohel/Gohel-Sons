@@ -1,0 +1,184 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+    <title>Student Registration</title>
+</head>
+<body>
+<section layout:fragment="header">
+    <h1>Add New Customer</h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Customer Registration</li>
+    </ol>
+</section>
+<div layout:fragment="content">
+  <form data-toggle="validator" role="form" th:object="${student}" th:action="@{/customers/save}" method="post">
+    <div class="box">
+		   <div class="box-header with-border">
+		    <h3 class="box-title">Enter Customer Details</h3>
+		   </div>
+  
+	     <div class="box-body">
+	       <input type="hidden" th:field="*{id}"/>
+         <div class="form-group col-sm-4">
+             <label for="name">Name</label>
+             <input type="text" required class="form-control" th:field="*{name}" id="name" placeholder="Name" />
+         </div>
+         <div class="form-group col-sm-4">
+              <label for="address">Address</label>
+              <input type="text" class="form-control" th:field="*{address}" id="address" placeholder="Address" />
+          </div>
+          <div class="form-group col-sm-4">
+              <label for="mobile">Mobile</label>
+              <input type="number" maxlength="10" class="form-control" th:field="*{mobile}" id="mobile" placeholder="Mobile" />
+          </div>
+          <div class="form-group col-sm-4">
+              <label for="deliveryDate">Delivery Date</label>
+              <input type="text" class="form-control" id="deliveryDate" th:field="*{deliveryDate}"
+                     pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}"
+                     placeholder="DD-MM-YYYY"/>
+         </div>
+         <div class="form-group col-sm-4">
+              <label for="gender">Gender</label>
+              <div class="form-group">
+               <select th:field="*{gender}" class="form-control" id="gender" onchange="myFunction()">
+                 <option value="male">Male</option>
+                 <option value="female">Female</option>
+               </select>
+              </div>
+          </div>
+          <div class="form-group col-sm-4">
+              <label for="price">Amount</label>
+              <input type="number" class="form-control" id="price" th:field="*{price}"
+                     placeholder="Amount" maxlength="5"/>
+          </div>
+        </div>
+     </div>
+    <div class="box">
+	     <div class="box-header with-border">
+	        <h3 class="box-title" id="shirtTitle"></h3>
+	     </div>
+	     
+	     <div class="box-body">
+         <div class="form-group col-sm-3">
+             <label for="shirtLength">Length</label>
+             <input type="text" class="form-control" th:field="*{shirtLength}" id="shirtLength" />
+         </div>
+         <div class="form-group col-sm-3">
+             <label for="chest">Chest</label>
+             <input type="text" class="form-control" id="chest" th:field="*{chest}" />
+         </div>
+         <div class="form-group col-sm-3">
+             <label for="shoulder">Shoulder</label>
+             <input type="text" class="form-control" th:field="*{shoulder}" id="shoulder" />
+         </div>
+         <div class="form-group col-sm-3">
+             <label for="sleeve">Sleeve</label>
+             <input type="text" class="form-control" th:field="*{sleeve}" id="sleeve" />
+         </div>
+         <div class="form-group col-sm-3" id="div-front">
+             <label for="front">Front</label>
+             <input type="text" class="form-control" th:field="*{front}" id="front" />
+         </div>
+         <div class="form-group col-sm-3" id="div-collar">
+             <label for="collar">Collar</label>
+             <input type="text" class="form-control" th:field="*{collar}" id="collar" />
+         </div>
+         <div class="form-group col-sm-3" id="div-culf">
+             <label for="culf">Culf</label>
+             <input type="text" class="form-control" th:field="*{culf}" id="culf" />
+         </div>
+         <div class="form-group col-sm-3" id="div-kurti-waist">
+             <label for="waist">Waist (Kamar)</label>
+             <input type="text" class="form-control"  th:field="*{kurtiWaist}" id="kurtiWaist" />
+         </div>
+         <div class="form-group col-sm-3" id="div-kurti-seat">
+             <label for="seat">Seat</label>
+             <input type="text" class="form-control" th:field="*{kurtiSeat}" id="kurtiSeat" />
+         </div>
+	     </div>
+	   </div>
+	   
+	   <div class="box">
+       <div class="box-header with-border">
+         <h3 class="box-title" id="pentTitle"></h3>
+       </div>
+       
+       <div class="box-body">
+         <div class="form-group col-sm-3">
+             <label for="pentLength">Length</label>
+             <input type="text" class="form-control" th:field="*{pentLength}" id="pentLength" />
+         </div>
+         <div class="form-group col-sm-3">
+             <label for="waist">Waist (Kamar)</label>
+             <input type="text" class="form-control"  th:field="*{waist}" id="waist" />
+         </div>
+         <div class="form-group col-sm-3" id="div-seat">
+             <label for="seat">Seat</label>
+             <input type="text" class="form-control" th:field="*{seat}" id="seat" />
+         </div>
+         <div class="form-group col-sm-3" id="div-hip">
+             <label for="hip">Hip (Jangh)</label>
+             <input type="text" class="form-control" id="hip" th:field="*{hip}" />
+         </div>
+         <div class="form-group col-sm-3" id="div-knee">
+             <label for="knee">Knee (Gothan)</label>
+             <input type="text" class="form-control" th:field="*{knee}" id="knee" />
+         </div>
+         <div class="form-group col-sm-3" id="div-ankleRound">
+             <label for="ankleRound">Ankle Round (Moli)</label>
+             <input type="text" class="form-control" th:field="*{ankleRound}" id="ankleRound" />
+         </div>
+         <div class="form-group col-sm-3" id="div-inseam">
+             <label for="inseam">Inside</label>
+             <input type="text" class="form-control" th:field="*{inseam}" id="inseam" />
+         </div>
+         <div class="form-group col-sm-3" id="div-crotch">
+             <label for="crotch">Crotch (Jolo)</label>
+             <input type="text" class="form-control" th:field="*{crotch}" id="crotch" />
+         </div>
+       </div>
+     </div>
+     <div class="box-footer">
+         <button type="submit" class="btn btn-primary">Save</button>
+     </div>
+     
+     <script type="text/javascript">
+       function myFunction() {
+         if(document.getElementById("gender").value == 'male'){
+           document.getElementById("shirtTitle").innerHTML = 'Shirt Measurement Details';
+           document.getElementById("pentTitle").innerHTML = 'Pent Measurement Details';
+           document.getElementById("div-crotch").style.display = 'block';
+           document.getElementById("div-ankleRound").style.display = 'block';
+           document.getElementById("div-knee").style.display = 'block';
+           document.getElementById("div-hip").style.display = 'block';
+           document.getElementById("div-seat").style.display = 'block';
+           document.getElementById("div-collar").style.display = 'block';
+           document.getElementById("div-kurti-waist").style.display = 'none';
+           document.getElementById("div-kurti-seat").style.display = 'none';
+           document.getElementById("div-front").style.display = 'block';
+           document.getElementById("div-culf").style.display = 'block';
+           document.getElementById("div-inseam").style.display = 'block';
+         } else {
+           document.getElementById("shirtTitle").innerHTML = 'Kurti Measurement Details';
+           document.getElementById("pentTitle").innerHTML = 'Salwar Measurement Details';
+           document.getElementById("div-crotch").style.display = 'none';
+           document.getElementById("div-ankleRound").style.display = 'none';
+           document.getElementById("div-knee").style.display = 'none';
+           document.getElementById("div-hip").style.display = 'none';
+           document.getElementById("div-seat").style.display = 'none';
+           document.getElementById("div-collar").style.display = 'none';
+           document.getElementById("div-kurti-waist").style.display = 'block';
+           document.getElementById("div-kurti-seat").style.display = 'block';
+           document.getElementById("div-front").style.display = 'none';
+           document.getElementById("div-culf").style.display = 'none';
+           document.getElementById("div-inseam").style.display = 'none';
+         }
+       }
+       
+       myFunction();
+     </script>
+  </form>
+</div>
+</body>
+</html>

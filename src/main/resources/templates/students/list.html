@@ -1,0 +1,66 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>Students</title>
+</head>
+<body>
+<section layout:fragment="header">
+    <h1>Students</h1>
+<ol class="breadcrumb">
+    <li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li class="active">Students</li>
+</ol>
+</section>
+<div layout:fragment="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title"></h3>
+            <div class="box-tools pull-right">
+                <a href="/students/add" type="button" class="btn btn-box-tool"><i class="glyphicon glyphicon-plus fa fa-plus"></i></a>
+                <br clear="all" />
+            </div>
+        </div>
+        <div class="box-body no-padding">
+            <table class="table table-striped">
+                <tr>
+                    <th width="7%"></th>
+                    <th>Name</th>
+                    <th>Standard</th>
+                    <th>Gender</th>
+                    <th>School Name</th>
+                    <th>Registration Date</th>
+                    <th>Amount</th>
+                </tr>
+                <tr th:each="row : ${list}">
+                    <td>
+                       &nbsp; 
+                       <a th:href="${'/students/edit/' + row.id}" class="glyphicon glyphicon-pencil">&nbsp;</a> 
+                       <a th:href="${'/students/delete/' + row.id}" class="glyphicon glyphicon-trash"></a>
+                    </td>
+                    <td th:text="${row.name}"></td>
+                    <td th:text="${row.classRoom}"></td>
+                    <td th:text="${row.gender == 'male' ? 'Boy' : 'Girl'}"></td>
+                    <td th:text="${row.school.name}"></td>
+                    <td th:text="${#dates.format(row.created, 'dd-MMM-yyyy hh:mm:ss')}"></td>
+                    <td th:text="${row.price}"></td>
+                </tr>
+                 <tr th:if="${list.isEmpty()}">
+                    <td></td>
+                    <td colspan="7"><b>No Data Found</b></td>
+                 </tr>
+            </table>
+        </div>
+        <div th:if="${!list.isEmpty()}" class="box-footer clearfix">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a href="/students/1">Previous</a></li>
+                <li th:each="p : ${#numbers.sequence(1, endIndex/beginIndex)}" th:class="${p == currentIndex} ? 'active' : ''">
+                    <a th:href="${'/students/' + p}" th:text="${p}"></a>
+                </li>
+                <li><a th:href="${'/students/' + endIndex}">Next</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

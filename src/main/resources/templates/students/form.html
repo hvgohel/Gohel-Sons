@@ -1,0 +1,111 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+    <title>Student Registration</title>
+</head>
+<body>
+<section layout:fragment="header">
+    <h1>Add New Student</h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Student Registration</li>
+    </ol>
+</section>
+<div layout:fragment="content">
+  <form data-toggle="validator" role="form" th:object="${student}" th:action="@{/students/save}" method="post">
+    <div class="box">
+		   <div class="box-header with-border">
+		    <h3 class="box-title">Enter Student Details</h3>
+		   </div>
+  
+	     <div class="box-body">
+	         <input type="hidden" th:field="*{id}"/>
+	         <div class="form-group col-sm-3">
+	             <label for="name">Name</label>
+	             <input type="text" required class="form-control" th:field="*{name}" id="name" placeholder="Name" />
+	         </div>
+	         <div class="form-group col-sm-3">
+	             <label for="standard">Standard</label>
+	             <div class="form-group">
+                <select th:field="*{classRoom}" class="form-control">
+                  <option value="Standard - 1">Standard - 1</option>
+                  <option value="Standard - 2">Standard - 2</option>
+                  <option value="Standard - 3">Standard - 3</option>
+                  <option value="Standard - 4">Standard - 4</option>
+                  <option value="Standard - 5">Standard - 5</option>
+                  <option value="Standard - 6">Standard - 6</option>
+                  <option value="Standard - 7">Standard - 7</option>
+                  <option value="Standard - 8">Standard - 8</option>
+                  <option value="Standard - 9">Standard - 9</option>
+                  <option value="Standard - 10">Standard - 10</option>
+                  <option value="Standard - 11">Standard - 11</option>
+                  <option value="Standard - 12">Standard - 12</option>
+                </select>
+               </div>
+	         </div>
+	         <div class="form-group col-sm-3">
+               <label for="gender">Gender</label>
+               <div class="form-group">
+                <select th:field="*{gender}" class="form-control">
+                  <option value="female">Girl</option>
+                  <option value="male">Boy</option>
+                </select>
+               </div>
+           </div>
+	         <div class="form-group col-sm-3">
+	             <label for="text">School</label>
+	             <div class="form-group">
+	              <select th:field="*{school}" class="form-control">
+								  <option th:each="school : ${schools}" th:value="${{school.id}}"
+								    th:text="${school.name}">
+								  </option>
+								</select>
+				       </div>
+           </div>
+           <div class="form-group col-sm-4">
+              <label for="price">Amount</label>
+              <input type="number" class="form-control" id="price" th:field="*{price}"
+                     placeholder="Amount" maxlength="5"/>
+           </div>
+        </div>
+     </div>
+    <div class="box">
+	     <div class="box-header with-border">
+	         <h3 class="box-title">T-Shirt Measurement Details</h3>
+	     </div>
+	     
+	     <div class="box-body">
+	         <div class="form-group col-sm-3">
+	             <label for="Chest">Chest</label>
+	             <input type="text" class="form-control" id="chest" th:field="*{chest}" />
+	         </div>
+	         <div class="form-group col-sm-3">
+	             <label for="ShirtLength">Length</label>
+	             <input type="text" class="form-control" th:field="*{shirtLength}" id="shirtLength" />
+	         </div>
+	     </div>
+	   </div>
+	   
+	   <div class="box">
+       <div class="box-header with-border">
+           <h3 class="box-title">Jeans Measurement Details</h3>
+       </div>
+       
+       <div class="box-body">
+           <div class="form-group col-sm-3">
+               <label for="waist">Width</label>
+               <input type="text" class="form-control" th:field="*{waist}" id="waist" />
+           </div>
+           <div class="form-group col-sm-3">
+               <label for="PentLength">Length</label>
+               <input type="text" class="form-control" th:field="*{pentLength}" id="pentLength" />
+           </div>
+       </div>
+     </div>  
+     <div class="box-footer">
+         <button type="submit" class="btn btn-primary">Save</button>
+     </div>
+  </form>
+</div>
+</body>
+</html>
