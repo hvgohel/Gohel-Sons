@@ -51,4 +51,8 @@ public class Student extends AbstractModel<Long> {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "school_id")
   private School school;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id")
+  private User user;
 }
