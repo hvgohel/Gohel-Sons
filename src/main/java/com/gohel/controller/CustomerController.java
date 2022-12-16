@@ -1,6 +1,7 @@
 package com.gohel.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.gohel.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +14,11 @@ import com.gohel.service.StudentService;
 
 @Controller
 @RequestMapping(value = "/customers")
+@RequiredArgsConstructor
 public class CustomerController {
 
-  @Autowired
-  private StudentService studentService;
+  private final StudentService studentService;
+  private final UserService userService;
 
   @RequestMapping
   public String index() {
@@ -52,6 +54,7 @@ public class CustomerController {
 
   @RequestMapping(value = "/save", method = RequestMethod.POST)
   public String save(Student customer, final RedirectAttributes ra) {
+    customer.setUser(userService.currentUser());
     studentService.save(customer);
     ra.addFlashAttribute("successFlash", "customer save successfully");
     return "redirect:/customers";
