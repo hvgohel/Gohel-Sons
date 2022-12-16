@@ -1,5 +1,7 @@
 package com.gohel.controller;
 
+import com.gohel.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -14,13 +16,12 @@ import com.gohel.service.StudentService;
 
 @Controller
 @RequestMapping("/students")
+@RequiredArgsConstructor
 public class StudentController {
 
-  @Autowired
-  private StudentService studentService;
-
-  @Autowired
-  private SchoolService schoolService;
+  private final StudentService studentService;
+  private final SchoolService schoolService;
+  private final UserService userService;
 
   @RequestMapping
   public String index() {
@@ -45,20 +46,21 @@ public class StudentController {
   @RequestMapping("/add")
   public String add(Model model) {
     model.addAttribute("student", new Student());
-    model.addAttribute("schools", schoolService.getAll());
+    model.addAttribute("schools", schoolService.getAllSchool());
     return "students/form";
   }
 
   @RequestMapping("/edit/{id}")
   public String edit(@PathVariable Long id, Model model) {
     model.addAttribute("student", studentService.get(id));
-    model.addAttribute("schools", schoolService.getAll());
+    model.addAttribute("schools", schoolService.getAllSchool());
     return "students/form";
   }
 
   @RequestMapping(value = "/save", method = RequestMethod.POST)
-  public String save(Student customer, final RedirectAttributes ra) {
-    studentService.save(customer);
+  public String save(Student student, final RedirectAttributes ra) {
+    student.setUser(userService.currentUser());
+    studentService.save(student);
     ra.addFlashAttribute("successFlash", "student save successfully");
     return "redirect:/students";
   }
