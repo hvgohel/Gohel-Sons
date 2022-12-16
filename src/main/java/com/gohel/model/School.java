@@ -1,9 +1,7 @@
 package com.gohel.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,4 +26,8 @@ public class School extends AbstractModel<Long> {
   
   @Transient
   private Integer totalStudent;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id")
+  private User user;
 }
