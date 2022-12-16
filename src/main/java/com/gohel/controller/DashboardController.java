@@ -1,34 +1,42 @@
 package com.gohel.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.gohel.model.Student;
 import com.gohel.service.StudentService;
 
+import java.util.Collections;
+
 @Controller
+@RequiredArgsConstructor
 public class DashboardController {
 
-  @Autowired
-  private StudentService studentService;
+    private final StudentService studentService;
 
-  @RequestMapping
-  public String index(@RequestParam(defaultValue = "1", required = false) Integer pageNumber,
-      Model model) {
-    Page<Student> page = studentService.getAll(PageRequest.of(pageNumber - 1, 20));
+    @RequestMapping(path = {"/", "/search"})
+    public String index(@RequestParam(defaultValue = "1", required = false) Integer pageNumber,
+                        Model model, String search) {
+        Page<Student> page = new PageImpl(Collections.EMPTY_LIST);
+        if (StringUtils.isEmpty(search)) {
+            page = studentService.getAllByUser(pageNumber);
+        } else {
+            page = studentService.getAllByUserAndName(pageNumber, search);
+        }
 
-    int current = page.getNumber() + 1;
-    int begin = Math.max(1, current - 5);
-    int end = Math.min(begin + 10, page.getTotalPages());
+        int current = page.getNumber() + 1;
+        int begin = Math.max(1, current - 5);
+        int end = Math.min(begin + 10, page.getTotalPages());
 
-    model.addAttribute("list", page);
-    model.addAttribute("beginIndex", begin);
-    model.addAttribute("endIndex", end);
-    model.addAttribute("currentIndex", current);
-    return "dashboard/index";
-  }
+        model.addAttribute("list", page);
+        model.addAttribute("beginIndex", begin);
+        model.addAttribute("endIndex", end);
+        model.addAttribute("currentIndex", current);
+        return "dashboard/index";
+    }
 }
