@@ -1,5 +1,7 @@
 package com.gohel.controller;
 
+import com.gohel.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -13,13 +15,12 @@ import com.gohel.service.SchoolService;
 import com.gohel.service.StudentService;
 
 @Controller
+@RequiredArgsConstructor
 public class SchoolController {
 
-  @Autowired
-  private SchoolService schoolService;
-
-  @Autowired
-  private StudentService studentService;
+  private final UserService userService;
+  private final SchoolService schoolService;
+  private final StudentService studentService;
 
   @RequestMapping(value = "/schools")
   public String index() {
@@ -28,7 +29,7 @@ public class SchoolController {
 
   @RequestMapping(value = "/schools/{pageNumber}", method = RequestMethod.GET)
   public String list(@PathVariable Integer pageNumber, Model model) {
-    Page<School> page = schoolService.getList(pageNumber);
+    Page<School> page = schoolService.getSchools(pageNumber);
 
     for (School school : page.getContent()) {
       school.setTotalAmount(studentService.getTotalAmount(school.getId()));
@@ -60,8 +61,9 @@ public class SchoolController {
   }
 
   @RequestMapping(value = "/schools/save", method = RequestMethod.POST)
-  public String save(School customer, final RedirectAttributes ra) {
-    schoolService.save(customer);
+  public String save(School school, final RedirectAttributes ra) {
+    school.setUser(userService.currentUser());
+    schoolService.save(school);
     ra.addFlashAttribute("successFlash", "School save successfully");
     return "redirect:/schools";
   }
