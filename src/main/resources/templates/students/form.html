@@ -55,7 +55,7 @@
 	         <div class="form-group col-sm-3">
 	             <label for="text">School</label>
 	             <div class="form-group">
-	              <select th:field="*{school}" class="form-control">
+	              <select th:field="*{school.id}" class="form-control">
 								  <option th:each="school : ${schools}" th:value="${{school.id}}"
 								    th:text="${school.name}">
 								  </option>
