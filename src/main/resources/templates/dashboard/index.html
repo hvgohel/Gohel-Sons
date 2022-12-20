@@ -15,9 +15,9 @@
          <form th:action="@{/search}" method="get">
          <h3 class="box-title"></h3>
          <div class="box-tools pull-right">
-             <input type="text" name="search" th:value="${search}">
-             <button type="submit" class="btn btn-primary btn-flat">Search</button>
-             <button type="submit" class="btn btn-primary btn-flat">Reset</button>
+             <input type="text" name="search" th:value="${search}"> &nbsp;
+             <button type="submit" class="btn btn-primary" style="padding: 2px 7px;">Search</button>
+             <button type="submit" class="btn btn-primary" style="padding: 2px 7px;">Reset</button>
          </div>
          </form>
      </div>
@@ -31,6 +31,7 @@
                  <th>Address</th>
                  <th>Delivery Date</th>
                  <th>Registration Date</th>
+                 <th></th>
              </tr>
              <tr th:each="row : ${list}">
                  <td>
@@ -44,6 +45,111 @@
                  <td th:text="${row.address}"></td>
                  <td th:text="${row.deliveryDate}"></td>
                  <td th:text="${#dates.format(row.created, 'dd-MMM-yyyy hh:mm:ss')}"></td>
+                 <td>
+                     <button type="button" class="btn btn-primary" style="padding: 2px 7px;" data-toggle="modal" th:attr="data-target=${'#modal'+row.id}">Measurement</button>
+                     <div class="modal fade" th:attr="id=${'modal'+row.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                         <div class="modal-dialog modal-dialog-centered" role="document">
+                             <div class="modal-content">
+                                 <div class="modal-header">
+                                     <h1 class="modal-title">Measurement</h1>
+                                 </div>
+                                 <div class="box">
+                                     <div class="box-header with-border">
+                                         <h3 class="box-title" th:if="${row.gender == 'male' && row.school == null}">Shirt Measurement Details</h3>
+                                         <h3 class="box-title" th:if="${row.gender =='female' && row.school == null}">Kurti Measurement Details</h3>
+                                         <h3 class="box-title" th:if="${row.school != null}">T-Shirt Measurement Details</h3>
+                                     </div>
+
+                                     <div class="box-body">
+                                         <div class="form-group col-sm-3">
+                                             <label>Length</label>
+                                             <p th:text="${row.shirtLength}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3">
+                                             <label>Chest</label>
+                                             <p th:text="${row.chest}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3" th:if="${row.school == null}">
+                                             <label>Shoulder</label>
+                                             <p th:text="${row.shoulder}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3" th:if="${row.school == null}">
+                                             <label>Sleeve</label>
+                                             <p th:text="${row.sleeve}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3" id="div-front" th:if="${row.gender == 'male' && row.school == null}">
+                                             <label>Front</label>
+                                             <p th:text="${row.front}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3" id="div-collar" th:if="${row.gender == 'male' && row.school == null}">
+                                             <label>Collar</label>
+                                             <p th:text="${row.collar}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3" id="div-culf" th:if="${row.gender == 'male' && row.school == null}">
+                                             <label>Culf</label>
+                                             <p th:text="${row.culf}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3" id="div-kurti-waist" th:if="${row.gender == 'female' && row.school == null}">
+                                             <label>Waist (Kamar)</label>
+                                             <p th:text="${row.kurtiWaist}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3" id="div-kurti-seat" th:if="${row.gender == 'female' && row.school == null}">
+                                             <label>Seat</label>
+                                             <p th:text="${row.kurtiSeat}"></p>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="box">
+                                     <div class="box-header with-border">
+                                         <h3 class="box-title" th:if="${row.gender == 'male' && row.school == null}">Pent Measurement Details</h3>
+                                         <h3 class="box-title" th:if="${row.gender =='female' && row.school == null}">Salwar Measurement Details</h3>
+                                         <h3 class="box-title" th:if="${row.school != null}">Jeans Measurement Details</h3>
+                                     </div>
+
+                                     <div class="box-body">
+                                         <div class="form-group col-sm-3">
+                                             <label>Length</label>
+                                             <p th:text="${row.pentLength}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3">
+                                             <label>Waist (Kamar)</label>
+                                             <p th:text="${row.waist}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3" id="div-seat" th:if="${row.gender == 'male' && row.school == null}">
+                                             <label>Seat</label>
+                                             <p th:text="${row.seat}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3" id="div-hip" th:if="${row.gender == 'male' && row.school == null}">
+                                             <label>Hip (Jangh)</label>
+                                             <p th:text="${row.hip}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3" id="div-knee" th:if="${row.gender == 'male' && row.school == null}">
+                                             <label>Knee (Gothan)</label>
+                                             <p th:text="${row.knee}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3" id="div-ankleRound" th:if="${row.gender == 'male' && row.school == null}">
+                                             <label>Ankle Round (Moli)</label>
+                                             <p th:text="${row.ankleRound}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3" id="div-inseam" th:if="${row.gender == 'male' && row.school == null}">
+                                             <label>Inside</label>
+                                             <p th:text="${row.inseam}"></p>
+                                         </div>
+                                         <div class="form-group col-sm-3" id="div-crotch" th:if="${row.gender == 'male' && row.school == null}">
+                                             <label>Crotch (Jolo)</label>
+                                             <p th:text="${row.crotch}"></p>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="modal-footer">
+                                     <button type="button" class="btn btn-secondary" style="padding: 2px 7px" data-dismiss="modal">Close</button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                     &nbsp;
+                     <a th:href="${'/payment/' + row.id}" style="text-decoration: none;"><button type="button" class="btn btn-primary" style="padding: 2px 7px" th:text="${row.payment}"></button></a>
+                 </td>
              </tr>
              <tr th:if="${list.isEmpty()}">
                  <td></td>
