@@ -14,15 +14,12 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
   Page<Student> findAllByUserAndSchoolIdNotNull(User user, Pageable pageable);
-
   Page<Student> findAllByUserAndSchoolIdNull(User user, Pageable pageable);
-
   Page<Student> findAllByUser(User user, Pageable pageable);
-
   Page<Student> findAllByUserAndNameLike(User user, String name, Pageable pageable);
-
+  Page<Student> findAllByUserAndSchoolIdNullAndNameLike(User user, String name, Pageable pageable);
+  Page<Student> findAllByUserAndSchoolIdNotNullAndNameLike(User user, String name, Pageable pageable);
   @Query("select sum(s.price) from Student s where s.school.id = ?1")
   Integer sumBySchoolId(Long schoolId);
-  
   Integer countBySchoolId(Long schoolId);
 }

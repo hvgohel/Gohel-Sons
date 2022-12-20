@@ -4,15 +4,20 @@ import com.gohel.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gohel.model.Student;
 import com.gohel.service.SchoolService;
 import com.gohel.service.StudentService;
+
+import java.util.Collections;
 
 @Controller
 @RequestMapping("/students")
@@ -25,12 +30,17 @@ public class StudentController {
 
   @RequestMapping
   public String index() {
-    return "redirect:/students/1";
+    return "redirect:/students/index";
   }
 
-  @RequestMapping(value = "/{pageNumber}", method = RequestMethod.GET)
-  public String list(@PathVariable Integer pageNumber, Model model) {
-    Page<Student> page = studentService.getStudents(pageNumber);
+  @RequestMapping(value = {"/index", "/search"}, method = RequestMethod.GET)
+  public String list(@RequestParam(defaultValue = "1", required = false) Integer pageNumber, Model model, String search) {
+    Page<Student> page = new PageImpl(Collections.EMPTY_LIST);
+    if (StringUtils.isEmpty(search)) {
+      page = studentService.getStudents(pageNumber);
+    } else {
+      page = studentService.getStudentsByName(pageNumber, search);
+    }
 
     int current = page.getNumber() + 1;
     int begin = Math.max(1, current - 5);
@@ -68,6 +78,14 @@ public class StudentController {
   @RequestMapping("/delete/{id}")
   public String delete(@PathVariable Long id) {
     studentService.delete(id);
+    return "redirect:/students";
+  }
+
+  @RequestMapping("/payment/{id}")
+  public String edit(@PathVariable Long id, String payment) {
+    Student customer = studentService.get(id);
+    customer.setPayment("Paid");
+    studentService.save(customer);
     return "redirect:/students";
   }
 }

@@ -24,6 +24,7 @@ public class Student extends AbstractModel<Long> {
   private String address;
   private String mobile;
   private Integer price;
+  private String payment = "Unpaid";
 
   // kurti
   private String kurtiWaist;

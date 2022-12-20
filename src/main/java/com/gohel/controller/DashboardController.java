@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.gohel.model.Student;
@@ -38,5 +39,13 @@ public class DashboardController {
         model.addAttribute("endIndex", end);
         model.addAttribute("currentIndex", current);
         return "dashboard/index";
+    }
+
+    @RequestMapping("/payment/{id}")
+    public String edit(@PathVariable Long id) {
+        Student customer = studentService.get(id);
+        customer.setPayment("Paid");
+        studentService.save(customer);
+        return "redirect:/";
     }
 }

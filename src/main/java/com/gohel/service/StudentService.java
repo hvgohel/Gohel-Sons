@@ -1,7 +1,6 @@
 package com.gohel.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,9 +26,20 @@ public class StudentService extends AbstractService<Student, Long> {
         .findAllByUserAndSchoolIdNotNull(userService.currentUser(), PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "id"));
   }
 
+  public Page<Student> getStudentsByName(Integer pageNumber, String search) {
+    return studentRepository
+            .findAllByUserAndSchoolIdNotNullAndNameLike(userService.currentUser(), search,
+                    PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "id"));
+  }
+
   public Page<Student> getCustomers(Integer pageNumber) {
     return studentRepository.findAllByUserAndSchoolIdNull(userService.currentUser(),
         PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "deliveryDate"));
+  }
+
+  public Page<Student> getCustomersByName(Integer pageNumber, String search) {
+    return studentRepository.findAllByUserAndSchoolIdNullAndNameLike(userService.currentUser(), search,
+            PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "deliveryDate"));
   }
 
   public Page<Student> getAllByUser(Integer pageNumber) {
