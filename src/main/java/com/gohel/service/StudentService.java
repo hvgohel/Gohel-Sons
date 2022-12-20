@@ -28,28 +28,28 @@ public class StudentService extends AbstractService<Student, Long> {
 
   public Page<Student> getStudentsByName(Integer pageNumber, String search) {
     return studentRepository
-            .findAllByUserAndSchoolIdNotNullAndNameLike(userService.currentUser(), search,
-                    PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "id"));
+            .findAllByUserAndSchoolIdNotNullAndNameLike(userService.currentUser(), "%" + search + "%",
+                    PageRequest.of(pageNumber - 1, 2, Sort.Direction.ASC, "id"));
   }
 
   public Page<Student> getCustomers(Integer pageNumber) {
     return studentRepository.findAllByUserAndSchoolIdNull(userService.currentUser(),
-        PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "deliveryDate"));
+        PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "deliveryDate"));
   }
 
   public Page<Student> getCustomersByName(Integer pageNumber, String search) {
-    return studentRepository.findAllByUserAndSchoolIdNullAndNameLike(userService.currentUser(), search,
-            PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "deliveryDate"));
+    return studentRepository.findAllByUserAndSchoolIdNullAndNameLike(userService.currentUser(), "%" + search + "%",
+            PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "deliveryDate"));
   }
 
   public Page<Student> getAllByUser(Integer pageNumber) {
     return studentRepository.findAllByUser(userService.currentUser(),
-            PageRequest.of(pageNumber - 1, 20, Sort.Direction.DESC, "deliveryDate"));
+            PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "deliveryDate"));
   }
 
   public Page<Student> getAllByUserAndName(Integer pageNumber, String name) {
     return studentRepository.findAllByUserAndNameLike(userService.currentUser(), "%" + name + "%",
-            PageRequest.of(pageNumber - 1, 20, Sort.Direction.ASC, "deliveryDate"));
+            PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "deliveryDate"));
   }
 
   public Integer getTotalAmount(Long schoolId) {

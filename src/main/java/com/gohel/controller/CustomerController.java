@@ -47,6 +47,7 @@ public class CustomerController {
     model.addAttribute("beginIndex", begin);
     model.addAttribute("endIndex", end);
     model.addAttribute("currentIndex", current);
+    model.addAttribute("search", search);
     return "customers/list";
   }
 
