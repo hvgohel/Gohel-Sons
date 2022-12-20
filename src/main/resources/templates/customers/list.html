@@ -3,6 +3,12 @@
       layout:decorator="layout">
 <head>
     <title>Customers</title>
+    <style>
+        .disabled-link {
+          opacity: 0.65;
+          pointer-events: none;
+        }
+    </style>
 </head>
 <body>
 <section layout:fragment="header">
@@ -21,9 +27,8 @@
             </div>
             <form th:action="@{/customers/search}" method="get">
                 <div class="pull-right">
-                    <input type="text" name="search" th:value="${search}" placeholder="Search"> &nbsp;
-                    <button type="submit" class="btn btn-primary" style="padding: 2px 7px;">Search</button>
-                    <button type="submit" class="btn btn-primary" style="padding: 2px 7px;">Reset</button>
+                    <input type="text" name="search" th:value="${search}" placeholder="Search.....">
+                    <button type="submit"><i class="fa fa-search"></i></button>
                 </div>
             </form>
         </div>
@@ -165,11 +170,14 @@
         </div>
         <div th:if="${!list.isEmpty()}" class="box-footer clearfix">
             <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="/customers/index">Previous</a></li>
-                <li th:each="p : ${#numbers.sequence(1, endIndex/beginIndex)}" th:class="${p == currentIndex} ? 'active' : ''">
-                    <a th:href="${'/customers/index?pageNumber=' + p}" th:text="${p}"></a>
-                </li>
-                <li><a th:href="${'/customers/index?pageNumber=' + endIndex}">Next</a></li>
+                <li>
+                    <a th:href="${search == null ? '/customers/index?pageNumber=' + (currentIndex-1) : '/customers/search?search=' + search + '&pageNumber=' + (currentIndex-1)}"
+                       th:class="${currentIndex == 1 ? 'disabled-link' : ''}">Previous</a></li>
+                <li th:each="p : ${#numbers.sequence(1, endIndex/beginIndex)}" th:class="${p == currentIndex ? 'active' : ''}">
+                    <a th:href="${search == null ? '/customers/index?pageNumber=' + p : '/customers/search?search=' + search + '&pageNumber=' + p}" th:text="${p}"></a></li>
+                <li>
+                    <a th:href="${search == null ? '/customers/index?pageNumber=' + (currentIndex+1) : '/customers/search?search=' + search + '&pageNumber=' + (currentIndex+1)}"
+                       th:class="${currentIndex == endIndex ? 'disabled-link' : ''}">Next</a></li>
             </ul>
         </div>
     </div>
