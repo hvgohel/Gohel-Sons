@@ -11,7 +11,6 @@ import com.gohel.repository.SchoolRepository;
 
 import java.util.List;
 
-
 @Service
 @RequiredArgsConstructor
 public class SchoolService extends AbstractService<School, Long> {
@@ -27,6 +26,12 @@ public class SchoolService extends AbstractService<School, Long> {
   public Page<School> getSchools(Integer pageNumber) {
     return schoolRepository
             .findAllByUser(userService.currentUser(), PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "id"));
+  }
+
+  public Page<School> getSchoolsBySearch(Integer pageNumber, String search) {
+    return schoolRepository
+            .findAllByUserAndNameLike(userService.currentUser(), "%" + search + "%",
+                    PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "id"));
   }
 
   public List<School> getAllSchool() {

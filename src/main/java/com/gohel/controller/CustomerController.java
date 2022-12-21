@@ -36,7 +36,7 @@ public class CustomerController {
     if (StringUtils.isEmpty(search)) {
       page = studentService.getCustomers(pageNumber);
     } else {
-      page = studentService.getCustomersByName(pageNumber, search);
+      page = studentService.searchCustomer(pageNumber, search);
     }
 
     int current = page.getNumber() + 1;
@@ -64,11 +64,17 @@ public class CustomerController {
   }
 
   @RequestMapping("/payment/{id}")
-  public String edit(@PathVariable Long id, String payment) {
+  public String edit(@PathVariable Long id, String payment, Integer pageNumber, String search) {
     Student customer = studentService.get(id);
-    customer.setPayment("Paid");
+    customer.setPayment(payment.equalsIgnoreCase("Unpaid") ? "Paid" : "Unpaid");
     studentService.save(customer);
-    return "redirect:/customers";
+
+    String redirectUrl = "redirect:/customers/index?pageNumber=" + pageNumber;
+    if (!StringUtils.isEmpty(search) && !search.equalsIgnoreCase("null")) {
+      redirectUrl = "redirect:/customers/search?pageNumber=" + pageNumber + "&search=" + search;
+    }
+
+    return redirectUrl;
   }
 
   @RequestMapping(value = "/save", method = RequestMethod.POST)

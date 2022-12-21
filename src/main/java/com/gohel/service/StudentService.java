@@ -23,13 +23,15 @@ public class StudentService extends AbstractService<Student, Long> {
 
   public Page<Student> getStudents(Integer pageNumber) {
     return studentRepository
-        .findAllByUserAndSchoolIdNotNull(userService.currentUser(), PageRequest.of(pageNumber - 1, 10, Sort.Direction.DESC, "id"));
+        .findAllByUserAndSchoolIdNotNull(userService.currentUser(),
+                PageRequest.of(pageNumber - 1, 5, Sort.Direction.DESC, "id"));
   }
 
-  public Page<Student> getStudentsByName(Integer pageNumber, String search) {
+  public Page<Student> searchStudent(Integer pageNumber, String search) {
+    String searchLike = "%" + search + "%";
     return studentRepository
-            .findAllByUserAndSchoolIdNotNullAndNameLike(userService.currentUser(), "%" + search + "%",
-                    PageRequest.of(pageNumber - 1, 2, Sort.Direction.ASC, "id"));
+            .searchStudent(userService.currentUser().getId(), searchLike, search, search, searchLike, search,
+                    PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "id"));
   }
 
   public Page<Student> getCustomers(Integer pageNumber) {
@@ -37,25 +39,28 @@ public class StudentService extends AbstractService<Student, Long> {
         PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "deliveryDate"));
   }
 
-  public Page<Student> getCustomersByName(Integer pageNumber, String search) {
-    return studentRepository.findAllByUserAndSchoolIdNullAndNameLike(userService.currentUser(), "%" + search + "%",
-            PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "deliveryDate"));
+  public Page<Student> searchCustomer(Integer pageNumber, String search) {
+    String searchLike = "%" + search + "%";
+    return studentRepository.searchCustomer(userService.currentUser().getId(),
+            searchLike, searchLike, search, searchLike, search,
+            PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "delivery_date"));
   }
 
   public Page<Student> getAllByUser(Integer pageNumber) {
     return studentRepository.findAllByUser(userService.currentUser(),
-            PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "deliveryDate"));
+            PageRequest.of(pageNumber - 1, 10, Sort.Direction.ASC, "deliveryDate"));
   }
 
-  public Page<Student> getAllByUserAndName(Integer pageNumber, String name) {
-    return studentRepository.findAllByUserAndNameLike(userService.currentUser(), "%" + name + "%",
+  public Page<Student> search(Integer pageNumber, String search) {
+    String searchLike = "%" + search + "%";
+    return studentRepository.search(userService.currentUser().getId(), searchLike, search, search, searchLike,
             PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "deliveryDate"));
   }
 
   public Integer getTotalAmount(Long schoolId) {
     return studentRepository.sumBySchoolId(schoolId);
   }
-  
+
   public Integer getTotalStudent(Long schoolId) {
     return studentRepository.countBySchoolId(schoolId);
   }

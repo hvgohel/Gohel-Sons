@@ -2,17 +2,21 @@ package com.gohel.controller;
 
 import com.gohel.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gohel.model.School;
 import com.gohel.service.SchoolService;
 import com.gohel.service.StudentService;
+
+import java.util.Collections;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,15 +28,21 @@ public class SchoolController {
 
   @RequestMapping(value = "/schools")
   public String index() {
-    return "redirect:/schools/1";
+    return "redirect:/schools/index";
   }
 
-  @RequestMapping(value = "/schools/{pageNumber}", method = RequestMethod.GET)
-  public String list(@PathVariable Integer pageNumber, Model model) {
-    Page<School> page = schoolService.getSchools(pageNumber);
+  @RequestMapping(value = {"/schools/index", "/schools/search"}, method = RequestMethod.GET)
+  public String list(@RequestParam(defaultValue = "1", required = false) Integer pageNumber, Model model, String search) {
+    Page<School> page = new PageImpl(Collections.EMPTY_LIST);
+    if (StringUtils.isEmpty(search)) {
+      page = schoolService.getSchools(pageNumber);
+    } else {
+      page = schoolService.getSchoolsBySearch(pageNumber, search);
+    }
 
     for (School school : page.getContent()) {
-      school.setTotalAmount(studentService.getTotalAmount(school.getId()));
+      Integer total = studentService.getTotalAmount(school.getId());
+      school.setTotalAmount(total == null ? 0 : total);
       school.setTotalStudent(studentService.getTotalStudent(school.getId()));
     }
 
@@ -44,7 +54,7 @@ public class SchoolController {
     model.addAttribute("beginIndex", begin);
     model.addAttribute("endIndex", end);
     model.addAttribute("currentIndex", current);
-
+    model.addAttribute("search", search);
     return "schools/list";
   }
 

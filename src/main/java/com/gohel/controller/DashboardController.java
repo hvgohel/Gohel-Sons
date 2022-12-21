@@ -27,7 +27,7 @@ public class DashboardController {
         if (StringUtils.isEmpty(search)) {
             page = studentService.getAllByUser(pageNumber);
         } else {
-            page = studentService.getAllByUserAndName(pageNumber, search);
+            page = studentService.search(pageNumber, search);
         }
 
         int current = page.getNumber() + 1;
@@ -43,10 +43,15 @@ public class DashboardController {
     }
 
     @RequestMapping("/payment/{id}")
-    public String edit(@PathVariable Long id) {
+    public String edit(@PathVariable Long id, String payment, Integer pageNumber, String search) {
         Student customer = studentService.get(id);
-        customer.setPayment("Paid");
+        customer.setPayment(payment.equalsIgnoreCase("Unpaid") ? "Paid" : "Unpaid");
         studentService.save(customer);
-        return "redirect:/";
+        String redirectUrl = "redirect:/?pageNumber=" + pageNumber;
+        if (!StringUtils.isEmpty(search) && !search.equalsIgnoreCase("null")) {
+            redirectUrl = "redirect:/search?pageNumber=" + pageNumber + "&search=" + search;
+        }
+
+        return redirectUrl;
     }
 }
