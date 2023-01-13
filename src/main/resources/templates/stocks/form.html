@@ -1,0 +1,65 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>>Add or Update Stocks</title>
+</head>
+<body>
+<section layout:fragment="header">
+    <h1>Add or Update Stocks</h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li class="active">Add or Update Stocks</li>
+    </ol>
+</section>
+<div layout:fragment="content">
+    <form data-toggle="validator" role="form" th:object="${item}" th:action="@{/stocks/save}" method="post">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Enter Stocks Details</h3>
+            </div>
+
+            <div class="box-body">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="form-group col-sm-4">
+                    <label for="type">Type</label>
+                    <select th:field="*{type}" class="form-control" id ="type">
+                        <option value="machine">Machine</option>
+                        <option value="fabrics">Fabrics</option>
+                        <option value="material">Material</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label for="description">Description</label>
+                    <input type="text" required class="form-control" th:field="*{description}" id="description" placeholder="Description"/>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label for="address">Address</label>
+                    <input type="text" class="form-control" th:field="*{address}" id="address" placeholder="Address"/>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label for="purchaseDate">Purchase Date</label>
+                    <input type="text" class="form-control" id="purchaseDate" th:field="*{purchaseDate}"
+                           pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])-(0[1-9]|1[012])-[0-9]{4}"
+                           placeholder="DD-MM-YYYY"/>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label for="quantity">Quantity</label>
+                    <input type="text" class="form-control" th:field="*{quantity}" id="quantity" placeholder="Quantity meter or count"/>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label for="amount">Amount</label>
+                    <input type="number" class="form-control" id="amount" th:field="*{amount}"
+                           placeholder="Amount"/>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+
+        <script type="text/javascript" src="/cust-script/gohelsons.js"></script>
+    </form>
+</div>
+</body>
+</html>

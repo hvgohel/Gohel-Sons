@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>Gohel & Son's | Login</title>
     <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
     <!-- Bootstrap 3.3.6 -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"/>
     <!-- Font Awesome -->
@@ -32,27 +32,33 @@
 
         <form th:action="@{/register}" method="post" th:object="${user}">
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" name="firstName" placeholder="Enter First Name" pattern="[A-Za-z]+" minlength="3" th:field="*{firstName}" required/>
+                <input type="text" class="form-control" name="firstName" placeholder="Enter First Name"
+                       pattern="[A-Za-z]+" minlength="3" th:field="*{firstName}" required/>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" name="lastName" placeholder="Enter Last Name" pattern="[A-Za-z]+" minlength="3" th:field="*{lastName}" required/>
+                <input type="text" class="form-control" name="lastName" placeholder="Enter Last Name"
+                       pattern="[A-Za-z]+" minlength="3" th:field="*{lastName}" required/>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" name="city" placeholder="Enter City" pattern="[A-Za-z]+" minlength="3" th:field="*{city}" required/>
+                <input type="text" class="form-control" name="city" placeholder="Enter City" pattern="[A-Za-z]+"
+                       minlength="3" th:field="*{city}" required/>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="email" class="form-control" name="email" placeholder="Enter Email" th:field="*{email}" required/>
+                <input type="email" class="form-control" name="email" placeholder="Enter Email" th:field="*{email}"
+                       required/>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" name="username" placeholder="Enter User Name" pattern="[A-Za-z]+" minlength="4" th:field="*{username}" required/>
+                <input type="text" class="form-control" name="username" placeholder="Enter User Name"
+                       pattern="[A-Za-z]+" minlength="4" th:field="*{username}" required/>
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" name="password" placeholder="Enter Password" minlength="4" th:field="*{password}" required/>
+                <input type="password" class="form-control" name="password" placeholder="Enter Password" minlength="4"
+                       th:field="*{password}" required/>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="row">
@@ -78,6 +84,7 @@
       increaseArea: '20%' // optional
     });
   });
+
 </script>
 </body>
 </html>

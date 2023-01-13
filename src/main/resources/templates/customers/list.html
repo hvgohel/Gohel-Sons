@@ -8,22 +8,24 @@
           opacity: 0.65;
           pointer-events: none;
         }
+
     </style>
 </head>
 <body>
 <section layout:fragment="header">
     <h1>Customers</h1>
-<ol class="breadcrumb">
-    <li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-    <li class="active">Customers</li>
-</ol>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active">Customers</li>
+    </ol>
 </section>
 <div layout:fragment="content">
     <div class="box">
         <div class="d-flex justify-content-between box-header with-border">
             <div class="pull-left">
-                <a href="/customers/add" type="button" class="btn btn-box-tool"><i class="glyphicon glyphicon-plus fa fa-plus"></i></a>
-                <br clear="all" />
+                <a href="/customers/add" type="button" class="btn btn-box-tool"><i
+                        class="glyphicon glyphicon-plus fa fa-plus"></i></a>
+                <br clear="all"/>
             </div>
             <form th:action="@{/customers/search}" method="get">
                 <div class="pull-right">
@@ -47,9 +49,9 @@
                 </tr>
                 <tr th:each="row : ${list}">
                     <td>
-                       &nbsp;
-                       <a th:href="${'/customers/edit/' + row.id}" class="glyphicon glyphicon-pencil">&nbsp;</a> 
-                       <a th:href="${'/customers/delete/' + row.id}" class="glyphicon glyphicon-trash"></a>
+                        &nbsp;
+                        <a th:href="${'/customers/edit/' + row.id}" class="glyphicon glyphicon-pencil">&nbsp;</a>
+                        <a th:href="${'/customers/delete/' + row.id}" class="glyphicon glyphicon-trash"></a>
                     </td>
                     <td th:text="${row.name}"></td>
                     <td th:text="${row.gender == 'male' ? 'Male' : 'Female'}"></td>
@@ -59,8 +61,11 @@
                     <td th:text="${row.deliveryDate}"></td>
                     <td th:text="${row.price}"></td>
                     <td>
-                        <button type="button" class="btn btn-info" style="padding: 2px 7px" data-toggle="modal" th:attr="data-target=${'#modal'+row.id}">Measurement</button>
-                        <div class="modal fade" th:attr="id=${'modal'+row.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <button type="button" class="btn btn-info" style="padding: 2px 7px" data-toggle="modal"
+                                th:attr="data-target=${'#modal'+row.id}">Measurement
+                        </button>
+                        <div class="modal fade" th:attr="id=${'modal'+row.id}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -68,8 +73,10 @@
                                     </div>
                                     <div class="box">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title" th:if="${row.gender}=='male'">Shirt Measurement Details</h3>
-                                            <h3 class="box-title" th:if="${row.gender}=='female'">Kurti Measurement Details</h3>
+                                            <h3 class="box-title" th:if="${row.gender}=='male'">Shirt Measurement
+                                                Details</h3>
+                                            <h3 class="box-title" th:if="${row.gender}=='female'">Kurti Measurement
+                                                Details</h3>
                                         </div>
 
                                         <div class="box-body">
@@ -89,23 +96,28 @@
                                                 <label>Sleeve</label>
                                                 <p th:text="${row.sleeve}"></p>
                                             </div>
-                                            <div class="form-group col-sm-3" id="div-front" th:if="${row.gender}=='male'">
+                                            <div class="form-group col-sm-3" id="div-front"
+                                                 th:if="${row.gender}=='male'">
                                                 <label>Front</label>
                                                 <p th:text="${row.front}"></p>
                                             </div>
-                                            <div class="form-group col-sm-3" id="div-collar" th:if="${row.gender}=='male'">
+                                            <div class="form-group col-sm-3" id="div-collar"
+                                                 th:if="${row.gender}=='male'">
                                                 <label>Collar</label>
                                                 <p th:text="${row.collar}"></p>
                                             </div>
-                                            <div class="form-group col-sm-3" id="div-culf" th:if="${row.gender}=='male'">
+                                            <div class="form-group col-sm-3" id="div-culf"
+                                                 th:if="${row.gender}=='male'">
                                                 <label>Culf</label>
                                                 <p th:text="${row.culf}"></p>
                                             </div>
-                                            <div class="form-group col-sm-3" id="div-kurti-waist" th:if="${row.gender}=='female'">
+                                            <div class="form-group col-sm-3" id="div-kurti-waist"
+                                                 th:if="${row.gender}=='female'">
                                                 <label>Waist (Kamar)</label>
                                                 <p th:text="${row.kurtiWaist}"></p>
                                             </div>
-                                            <div class="form-group col-sm-3" id="div-kurti-seat" th:if="${row.gender}=='female'">
+                                            <div class="form-group col-sm-3" id="div-kurti-seat"
+                                                 th:if="${row.gender}=='female'">
                                                 <label>Seat</label>
                                                 <p th:text="${row.kurtiSeat}"></p>
                                             </div>
@@ -113,8 +125,10 @@
                                     </div>
                                     <div class="box">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title" th:if="${row.gender}=='male'">Pent Measurement Details</h3>
-                                            <h3 class="box-title" th:if="${row.gender}=='female'">Salwar Measurement Details</h3>
+                                            <h3 class="box-title" th:if="${row.gender}=='male'">Pent Measurement
+                                                Details</h3>
+                                            <h3 class="box-title" th:if="${row.gender}=='female'">Salwar Measurement
+                                                Details</h3>
                                         </div>
 
                                         <div class="box-body">
@@ -126,7 +140,8 @@
                                                 <label>Waist (Kamar)</label>
                                                 <p th:text="${row.waist}"></p>
                                             </div>
-                                            <div class="form-group col-sm-3" id="div-seat" th:if="${row.gender}=='male'">
+                                            <div class="form-group col-sm-3" id="div-seat"
+                                                 th:if="${row.gender}=='male'">
                                                 <label>Seat</label>
                                                 <p th:text="${row.seat}"></p>
                                             </div>
@@ -134,39 +149,48 @@
                                                 <label>Hip (Jangh)</label>
                                                 <p th:text="${row.hip}"></p>
                                             </div>
-                                            <div class="form-group col-sm-3" id="div-knee" th:if="${row.gender}=='male'">
+                                            <div class="form-group col-sm-3" id="div-knee"
+                                                 th:if="${row.gender}=='male'">
                                                 <label>Knee (Gothan)</label>
                                                 <p th:text="${row.knee}"></p>
                                             </div>
-                                            <div class="form-group col-sm-3" id="div-ankleRound" th:if="${row.gender}=='male'">
+                                            <div class="form-group col-sm-3" id="div-ankleRound"
+                                                 th:if="${row.gender}=='male'">
                                                 <label>Ankle Round (Moli)</label>
                                                 <p th:text="${row.ankleRound}"></p>
                                             </div>
-                                            <div class="form-group col-sm-3" id="div-inseam" th:if="${row.gender}=='male'">
+                                            <div class="form-group col-sm-3" id="div-inseam"
+                                                 th:if="${row.gender}=='male'">
                                                 <label>Inside</label>
                                                 <p th:text="${row.inseam}"></p>
                                             </div>
-                                            <div class="form-group col-sm-3" id="div-crotch" th:if="${row.gender}=='male'">
+                                            <div class="form-group col-sm-3" id="div-crotch"
+                                                 th:if="${row.gender}=='male'">
                                                 <label>Crotch (Jolo)</label>
                                                 <p th:text="${row.crotch}"></p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         &nbsp;
-                        <a th:href="${'/customers/payment/' + row.id + '?payment=' + row.payment + '&pageNumber=' + currentIndex + '&search=' + search}" style="text-decoration: none;">
-                            <button type="button" th:class="${row.payment == 'Paid' ? 'btn btn-success' : 'btn btn-danger'}" style="padding: 2px 7px" th:text="${row.payment}"></button></a>
+                        <a th:href="${'/customers/payment/' + row.id + '?payment=' + row.payment + '&pageNumber=' + currentIndex + '&search=' + search}"
+                           style="text-decoration: none;">
+                            <button type="button"
+                                    th:class="${row.payment == 'Paid' ? 'btn btn-success' : 'btn btn-danger'}"
+                                    style="padding: 2px 7px" th:text="${row.payment}"></button>
+                        </a>
                     </td>
                 </tr>
-                 <tr th:if="${list.isEmpty()}">
+                <tr th:if="${list.isEmpty()}">
                     <td></td>
                     <td colspan="7"><b>No Data Found</b></td>
-                 </tr>
+                </tr>
             </table>
         </div>
         <div th:if="${!list.isEmpty()}" class="box-footer clearfix">
@@ -174,8 +198,10 @@
                 <li>
                     <a th:href="${search == null ? '/customers/index?pageNumber=' + (currentIndex-1) : '/customers/search?search=' + search + '&pageNumber=' + (currentIndex-1)}"
                        th:class="${currentIndex == 1 ? 'disabled-link' : ''}">Previous</a></li>
-                <li th:each="p : ${#numbers.sequence(1, endIndex/beginIndex)}" th:class="${p == currentIndex ? 'active' : ''}">
-                    <a th:href="${search == null ? '/customers/index?pageNumber=' + p : '/customers/search?search=' + search + '&pageNumber=' + p}" th:text="${p}"></a></li>
+                <li th:each="p : ${#numbers.sequence(1, endIndex/beginIndex)}"
+                    th:class="${p == currentIndex ? 'active' : ''}">
+                    <a th:href="${search == null ? '/customers/index?pageNumber=' + p : '/customers/search?search=' + search + '&pageNumber=' + p}"
+                       th:text="${p}"></a></li>
                 <li>
                     <a th:href="${search == null ? '/customers/index?pageNumber=' + (currentIndex+1) : '/customers/search?search=' + search + '&pageNumber=' + (currentIndex+1)}"
                        th:class="${currentIndex == endIndex ? 'disabled-link' : ''}">Next</a></li>

@@ -1,167 +1,168 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
 <head>
-    <title>Student Registration</title>
+    <title>Add or Update Student</title>
 </head>
 <body>
 <section layout:fragment="header">
-    <h1>Add New Student</h1>
+    <h1>Add or Update Student</h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-        <li class="active">Student Registration</li>
+        <li class="active">Add or Update Student</li>
     </ol>
 </section>
 <div layout:fragment="content">
-  <form data-toggle="validator" role="form" th:object="${student}" th:action="@{/students/save}" method="post">
-    <div class="box">
-		   <div class="box-header with-border">
-		    <h3 class="box-title">Enter Student Details</h3>
-		   </div>
-  
-	     <div class="box-body">
-	         <input type="hidden" th:field="*{id}"/>
-	         <div class="form-group col-sm-3">
-	             <label for="name">Name</label>
-	             <input type="text" required class="form-control" th:field="*{name}" id="name" placeholder="Name" />
-	         </div>
-	         <div class="form-group col-sm-3">
-	             <label for="standard">Standard</label>
-	             <div class="form-group">
-                <select th:field="*{classRoom}" class="form-control">
-                  <option value="Standard - 1">Standard - 1</option>
-                  <option value="Standard - 2">Standard - 2</option>
-                  <option value="Standard - 3">Standard - 3</option>
-                  <option value="Standard - 4">Standard - 4</option>
-                  <option value="Standard - 5">Standard - 5</option>
-                  <option value="Standard - 6">Standard - 6</option>
-                  <option value="Standard - 7">Standard - 7</option>
-                  <option value="Standard - 8">Standard - 8</option>
-                  <option value="Standard - 9">Standard - 9</option>
-                  <option value="Standard - 10">Standard - 10</option>
-                  <option value="Standard - 11">Standard - 11</option>
-                  <option value="Standard - 12">Standard - 12</option>
-                </select>
-               </div>
-	         </div>
-	         <div class="form-group col-sm-3">
-               <label for="gender">Gender</label>
-               <div class="form-group">
-                <select th:field="*{gender}" class="form-control" onchange="myFunction()">
-                  <option value="female">Girl</option>
-                  <option value="male">Boy</option>
-                </select>
-               </div>
-           </div>
-	         <div class="form-group col-sm-3">
-	             <label for="text">School</label>
-	             <div class="form-group">
-	              <select th:field="*{school.id}" class="form-control">
-								  <option th:each="school : ${schools}" th:value="${{school.id}}"
-								    th:text="${school.name}">
-								  </option>
-								</select>
-				       </div>
-           </div>
-           <div class="form-group col-sm-4">
-              <label for="price">Amount</label>
-              <input type="number" class="form-control" id="price" th:field="*{price}"
-                     placeholder="Amount" maxlength="5"/>
-           </div>
-             <div class="form-group col-sm-3" id="div-payment">
-                 <input type="text" class="form-control" th:field="*{payment}" id="payment" />
-             </div>
+    <form data-toggle="validator" role="form" th:object="${student}" th:action="@{/students/save}" method="post">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Enter Student Details</h3>
+            </div>
+
+            <div class="box-body">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="form-group col-sm-3">
+                    <label for="name">Name</label>
+                    <input type="text" required class="form-control" th:field="*{name}" id="name" placeholder="Name"/>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="standard">Standard</label>
+                    <div class="form-group">
+                        <select th:field="*{classRoom}" class="form-control" id="standard">
+                            <option value="Standard - 1">Standard - 1</option>
+                            <option value="Standard - 2">Standard - 2</option>
+                            <option value="Standard - 3">Standard - 3</option>
+                            <option value="Standard - 4">Standard - 4</option>
+                            <option value="Standard - 5">Standard - 5</option>
+                            <option value="Standard - 6">Standard - 6</option>
+                            <option value="Standard - 7">Standard - 7</option>
+                            <option value="Standard - 8">Standard - 8</option>
+                            <option value="Standard - 9">Standard - 9</option>
+                            <option value="Standard - 10">Standard - 10</option>
+                            <option value="Standard - 11">Standard - 11</option>
+                            <option value="Standard - 12">Standard - 12</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="gender">Gender</label>
+                    <div class="form-group">
+                        <select th:field="*{gender}" class="form-control" onchange="myFunction()" id="gender">
+                            <option value="female">Girl</option>
+                            <option value="male">Boy</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="school">School</label>
+                    <div class="form-group">
+                        <select th:field="*{school.id}" class="form-control" id="school">
+                            <option th:each="school : ${schools}" th:value="${{school.id}}"
+                                    th:text="${school.name}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="price">Amount</label>
+                    <input type="number" class="form-control" id="price" th:field="*{price}"
+                           placeholder="Amount" maxlength="5"/>
+                </div>
+                <div class="form-group col-sm-3" id="div-payment">
+                    <input type="text" class="form-control" th:field="*{payment}" id="payment"/>
+                </div>
+            </div>
         </div>
-     </div>
-      <div class="box">
-          <div class="box-header with-border">
-              <h3 class="box-title" id="shirtTitle"></h3>
-          </div>
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title" id="shirtTitle"></h3>
+            </div>
 
-          <div class="box-body">
-              <div class="form-group col-sm-3">
-                  <label for="shirtLength">Length</label>
-                  <input type="text" class="form-control" th:field="*{shirtLength}" id="shirtLength" />
-              </div>
-              <div class="form-group col-sm-3">
-                  <label for="chest">Chest</label>
-                  <input type="text" class="form-control" id="chest" th:field="*{chest}" />
-              </div>
-              <div class="form-group col-sm-3">
-                  <label for="shoulder">Shoulder</label>
-                  <input type="text" class="form-control" th:field="*{shoulder}" id="shoulder" />
-              </div>
-              <div class="form-group col-sm-3">
-                  <label for="sleeve">Sleeve</label>
-                  <input type="text" class="form-control" th:field="*{sleeve}" id="sleeve" />
-              </div>
-              <div class="form-group col-sm-3" id="div-front">
-                  <label for="front">Front</label>
-                  <input type="text" class="form-control" th:field="*{front}" id="front" />
-              </div>
-              <div class="form-group col-sm-3" id="div-collar">
-                  <label for="collar">Collar</label>
-                  <input type="text" class="form-control" th:field="*{collar}" id="collar" />
-              </div>
-              <div class="form-group col-sm-3" id="div-culf">
-                  <label for="culf">Culf</label>
-                  <input type="text" class="form-control" th:field="*{culf}" id="culf" />
-              </div>
-              <div class="form-group col-sm-3" id="div-kurti-waist">
-                  <label for="waist">Waist (Kamar)</label>
-                  <input type="text" class="form-control"  th:field="*{kurtiWaist}" id="kurtiWaist" />
-              </div>
-              <div class="form-group col-sm-3" id="div-kurti-seat">
-                  <label for="seat">Seat</label>
-                  <input type="text" class="form-control" th:field="*{kurtiSeat}" id="kurtiSeat" />
-              </div>
-          </div>
-      </div>
-      <div class="box">
-          <div class="box-header with-border">
-              <h3 class="box-title" id="pentTitle"></h3>
-          </div>
+            <div class="box-body">
+                <div class="form-group col-sm-3">
+                    <label for="shirtLength">Length</label>
+                    <input type="text" class="form-control" th:field="*{shirtLength}" id="shirtLength"/>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="chest">Chest</label>
+                    <input type="text" class="form-control" id="chest" th:field="*{chest}"/>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="shoulder">Shoulder</label>
+                    <input type="text" class="form-control" th:field="*{shoulder}" id="shoulder"/>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="sleeve">Sleeve</label>
+                    <input type="text" class="form-control" th:field="*{sleeve}" id="sleeve"/>
+                </div>
+                <div class="form-group col-sm-3" id="div-front">
+                    <label for="front">Front</label>
+                    <input type="text" class="form-control" th:field="*{front}" id="front"/>
+                </div>
+                <div class="form-group col-sm-3" id="div-collar">
+                    <label for="collar">Collar</label>
+                    <input type="text" class="form-control" th:field="*{collar}" id="collar"/>
+                </div>
+                <div class="form-group col-sm-3" id="div-culf">
+                    <label for="culf">Culf</label>
+                    <input type="text" class="form-control" th:field="*{culf}" id="culf"/>
+                </div>
+                <div class="form-group col-sm-3" id="div-kurti-waist">
+                    <label for="waist">Waist (Kamar)</label>
+                    <input type="text" class="form-control" th:field="*{kurtiWaist}" id="kurtiWaist"/>
+                </div>
+                <div class="form-group col-sm-3" id="div-kurti-seat">
+                    <label for="seat">Seat</label>
+                    <input type="text" class="form-control" th:field="*{kurtiSeat}" id="kurtiSeat"/>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title" id="pentTitle"></h3>
+            </div>
 
-          <div class="box-body">
-              <div class="form-group col-sm-3">
-                  <label for="pentLength">Length</label>
-                  <input type="text" class="form-control" th:field="*{pentLength}" id="pentLength" />
-              </div>
-              <div class="form-group col-sm-3">
-                  <label for="waist">Waist (Kamar)</label>
-                  <input type="text" class="form-control"  th:field="*{waist}" id="waist" />
-              </div>
-              <div class="form-group col-sm-3" id="div-seat">
-                  <label for="seat">Seat</label>
-                  <input type="text" class="form-control" th:field="*{seat}" id="seat" />
-              </div>
-              <div class="form-group col-sm-3" id="div-hip">
-                  <label for="hip">Hip (Jangh)</label>
-                  <input type="text" class="form-control" id="hip" th:field="*{hip}" />
-              </div>
-              <div class="form-group col-sm-3" id="div-knee">
-                  <label for="knee">Knee (Gothan)</label>
-                  <input type="text" class="form-control" th:field="*{knee}" id="knee" />
-              </div>
-              <div class="form-group col-sm-3" id="div-ankleRound">
-                  <label for="ankleRound">Ankle Round (Moli)</label>
-                  <input type="text" class="form-control" th:field="*{ankleRound}" id="ankleRound" />
-              </div>
-              <div class="form-group col-sm-3" id="div-inseam">
-                  <label for="inseam">Inside</label>
-                  <input type="text" class="form-control" th:field="*{inseam}" id="inseam" />
-              </div>
-              <div class="form-group col-sm-3" id="div-crotch">
-                  <label for="crotch">Crotch (Jolo)</label>
-                  <input type="text" class="form-control" th:field="*{crotch}" id="crotch" />
-              </div>
-          </div>
-      </div>
-     <div class="box-footer">
-         <button type="submit" class="btn btn-primary">Save</button>
-     </div>
+            <div class="box-body">
+                <div class="form-group col-sm-3">
+                    <label for="pentLength">Length</label>
+                    <input type="text" class="form-control" th:field="*{pentLength}" id="pentLength"/>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="waist">Waist (Kamar)</label>
+                    <input type="text" class="form-control" th:field="*{waist}" id="waist"/>
+                </div>
+                <div class="form-group col-sm-3" id="div-seat">
+                    <label for="seat">Seat</label>
+                    <input type="text" class="form-control" th:field="*{seat}" id="seat"/>
+                </div>
+                <div class="form-group col-sm-3" id="div-hip">
+                    <label for="hip">Hip (Jangh)</label>
+                    <input type="text" class="form-control" id="hip" th:field="*{hip}"/>
+                </div>
+                <div class="form-group col-sm-3" id="div-knee">
+                    <label for="knee">Knee (Gothan)</label>
+                    <input type="text" class="form-control" th:field="*{knee}" id="knee"/>
+                </div>
+                <div class="form-group col-sm-3" id="div-ankleRound">
+                    <label for="ankleRound">Ankle Round (Moli)</label>
+                    <input type="text" class="form-control" th:field="*{ankleRound}" id="ankleRound"/>
+                </div>
+                <div class="form-group col-sm-3" id="div-inseam">
+                    <label for="inseam">Inside</label>
+                    <input type="text" class="form-control" th:field="*{inseam}" id="inseam"/>
+                </div>
+                <div class="form-group col-sm-3" id="div-crotch">
+                    <label for="crotch">Crotch (Jolo)</label>
+                    <input type="text" class="form-control" th:field="*{crotch}" id="crotch"/>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
 
-      <script type="text/javascript" src="/cust-script/gohelsons.js"></script>
-  </form>
+        <script type="text/javascript" src="/cust-script/gohelsons.js"></script>
+    </form>
 </div>
 </body>
 </html>
