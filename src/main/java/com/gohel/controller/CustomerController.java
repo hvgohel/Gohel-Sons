@@ -31,7 +31,8 @@ public class CustomerController {
   }
 
   @RequestMapping(value = {"/index", "/search"}, method = RequestMethod.GET)
-  public String list(@RequestParam(defaultValue = "1", required = false) Integer pageNumber, Model model, String search) {
+  public String list(@RequestParam(defaultValue = "1", required = false) Integer pageNumber,
+      Model model, String search) {
     Page<Student> page = new PageImpl(Collections.EMPTY_LIST);
     if (StringUtils.isEmpty(search)) {
       page = studentService.getCustomers(pageNumber);

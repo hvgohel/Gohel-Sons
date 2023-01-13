@@ -32,7 +32,8 @@ public class SchoolController {
   }
 
   @RequestMapping(value = {"/schools/index", "/schools/search"}, method = RequestMethod.GET)
-  public String list(@RequestParam(defaultValue = "1", required = false) Integer pageNumber, Model model, String search) {
+  public String list(@RequestParam(defaultValue = "1", required = false) Integer pageNumber,
+      Model model, String search) {
     Page<School> page = new PageImpl(Collections.EMPTY_LIST);
     if (StringUtils.isEmpty(search)) {
       page = schoolService.getSchools(pageNumber);

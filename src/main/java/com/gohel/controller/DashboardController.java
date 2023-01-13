@@ -18,40 +18,40 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class DashboardController {
 
-    private final StudentService studentService;
+  private final StudentService studentService;
 
-    @RequestMapping(path = {"/", "/search"})
-    public String index(@RequestParam(defaultValue = "1", required = false) Integer pageNumber,
-                        Model model, String search) {
-        Page<Student> page = new PageImpl(Collections.EMPTY_LIST);
-        if (StringUtils.isEmpty(search)) {
-            page = studentService.getAllByUser(pageNumber);
-        } else {
-            page = studentService.search(pageNumber, search);
-        }
-
-        int current = page.getNumber() + 1;
-        int begin = Math.max(1, current - 5);
-        int end = Math.min(begin + 10, page.getTotalPages());
-
-        model.addAttribute("list", page);
-        model.addAttribute("beginIndex", begin);
-        model.addAttribute("endIndex", end);
-        model.addAttribute("currentIndex", current);
-        model.addAttribute("search", search);
-        return "dashboard/index";
+  @RequestMapping(path = {"/", "/search"})
+  public String index(@RequestParam(defaultValue = "1", required = false) Integer pageNumber,
+      Model model, String search) {
+    Page<Student> page = new PageImpl(Collections.EMPTY_LIST);
+    if (StringUtils.isEmpty(search)) {
+      page = studentService.getAllByUser(pageNumber);
+    } else {
+      page = studentService.search(pageNumber, search);
     }
 
-    @RequestMapping("/payment/{id}")
-    public String edit(@PathVariable Long id, String payment, Integer pageNumber, String search) {
-        Student customer = studentService.get(id);
-        customer.setPayment(payment.equalsIgnoreCase("Unpaid") ? "Paid" : "Unpaid");
-        studentService.save(customer);
-        String redirectUrl = "redirect:/?pageNumber=" + pageNumber;
-        if (!StringUtils.isEmpty(search) && !search.equalsIgnoreCase("null")) {
-            redirectUrl = "redirect:/search?pageNumber=" + pageNumber + "&search=" + search;
-        }
+    int current = page.getNumber() + 1;
+    int begin = Math.max(1, current - 5);
+    int end = Math.min(begin + 10, page.getTotalPages());
 
-        return redirectUrl;
+    model.addAttribute("list", page);
+    model.addAttribute("beginIndex", begin);
+    model.addAttribute("endIndex", end);
+    model.addAttribute("currentIndex", current);
+    model.addAttribute("search", search);
+    return "dashboard/index";
+  }
+
+  @RequestMapping("/payment/{id}")
+  public String edit(@PathVariable Long id, String payment, Integer pageNumber, String search) {
+    Student customer = studentService.get(id);
+    customer.setPayment(payment.equalsIgnoreCase("Unpaid") ? "Paid" : "Unpaid");
+    studentService.save(customer);
+    String redirectUrl = "redirect:/?pageNumber=" + pageNumber;
+    if (!StringUtils.isEmpty(search) && !search.equalsIgnoreCase("null")) {
+      redirectUrl = "redirect:/search?pageNumber=" + pageNumber + "&search=" + search;
     }
+
+    return redirectUrl;
+  }
 }

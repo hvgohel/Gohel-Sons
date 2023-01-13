@@ -22,16 +22,14 @@ public class StudentService extends AbstractService<Student, Long> {
   }
 
   public Page<Student> getStudents(Integer pageNumber) {
-    return studentRepository
-        .findAllByUserAndSchoolIdNotNull(userService.currentUser(),
-                PageRequest.of(pageNumber - 1, 5, Sort.Direction.DESC, "id"));
+    return studentRepository.findAllByUserAndSchoolIdNotNull(userService.currentUser(),
+        PageRequest.of(pageNumber - 1, 5, Sort.Direction.DESC, "id"));
   }
 
   public Page<Student> searchStudent(Integer pageNumber, String search) {
     String searchLike = "%" + search + "%";
-    return studentRepository
-            .searchStudent(userService.currentUser().getId(), searchLike, search, search, searchLike, search,
-                    PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "id"));
+    return studentRepository.searchStudent(userService.currentUser().getId(), searchLike, search,
+        search, searchLike, search, PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "id"));
   }
 
   public Page<Student> getCustomers(Integer pageNumber) {
@@ -41,20 +39,20 @@ public class StudentService extends AbstractService<Student, Long> {
 
   public Page<Student> searchCustomer(Integer pageNumber, String search) {
     String searchLike = "%" + search + "%";
-    return studentRepository.searchCustomer(userService.currentUser().getId(),
-            searchLike, searchLike, search, searchLike, search,
-            PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "delivery_date"));
+    return studentRepository.searchCustomer(userService.currentUser().getId(), searchLike,
+        searchLike, search, searchLike, search,
+        PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "delivery_date"));
   }
 
   public Page<Student> getAllByUser(Integer pageNumber) {
     return studentRepository.findAllByUser(userService.currentUser(),
-            PageRequest.of(pageNumber - 1, 10, Sort.Direction.ASC, "deliveryDate"));
+        PageRequest.of(pageNumber - 1, 10, Sort.Direction.ASC, "deliveryDate"));
   }
 
   public Page<Student> search(Integer pageNumber, String search) {
     String searchLike = "%" + search + "%";
-    return studentRepository.search(userService.currentUser().getId(), searchLike, search, search, searchLike,
-            PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "deliveryDate"));
+    return studentRepository.search(userService.currentUser().getId(), searchLike, search, search,
+        searchLike, PageRequest.of(pageNumber - 1, 5, Sort.Direction.ASC, "deliveryDate"));
   }
 
   public Integer getTotalAmount(Long schoolId) {

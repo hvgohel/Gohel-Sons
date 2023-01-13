@@ -17,23 +17,23 @@ import javax.persistence.EntityExistsException;
 @RequestMapping("/register")
 public class UserController {
 
-    private final UserService userService;
-    private final BCryptPasswordEncoder passwordEncoder;
+  private final UserService userService;
+  private final BCryptPasswordEncoder passwordEncoder;
 
-    @GetMapping
-    public String register(Model model) {
-        model.addAttribute("user", new User());
-        return "registration";
+  @GetMapping
+  public String register(Model model) {
+    model.addAttribute("user", new User());
+    return "registration";
+  }
+
+  @PostMapping
+  public String register(User user) {
+    if (userService.existsByUsername(user.getUsername())) {
+      throw new EntityExistsException("Username already exist");
     }
 
-    @PostMapping
-    public String register(User user) {
-        if (userService.existsByUsername(user.getUsername())) {
-            throw new EntityExistsException("Username already exist");
-        }
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.save(user);
-        return "redirect:/login";
-    }
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    userService.save(user);
+    return "redirect:/login";
+  }
 }

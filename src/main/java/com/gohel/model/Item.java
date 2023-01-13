@@ -1,31 +1,34 @@
 package com.gohel.model;
 
-import javax.persistence.*;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import javax.persistence.*;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(schema = "gohel_and_sons")
-public class School extends AbstractModel<Long> {
+public class Item extends AbstractModel<Long> {
 
   @Column(nullable = false)
-  private String name;
+  private String type;
+
+  private String description;
 
   private String address;
 
-  @Column(nullable = false, unique = true)
-  private String email;
+  private String purchaseDate;
 
-  private String deliveryDate;
+  private String quantity;
 
-  @Transient
-  private Integer totalAmount;
+  private String comment;
 
-  @Transient
-  private Integer totalStudent;
+  private String status;
+
+  private Double amount;
+
+  private String receipt;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")

@@ -12,7 +12,9 @@ import java.util.List;
 
 @Repository
 public interface SchoolRepository extends JpaRepository<School, Long> {
-    Page<School> findAllByUser(User user, Pageable pageable);
-    Page<School> findAllByUserAndNameLike(User user, String name, Pageable pageable);
-    List<School> findAllByUser(User user);
+  Page<School> findAllByUser(User user, Pageable pageable);
+
+  Page<School> findAllByUserAndNameLike(User user, String name, Pageable pageable);
+
+  List<School> findAllByUser(User user);
 }

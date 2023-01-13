@@ -17,17 +17,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService {
 
-    private final UserService userService;
+  private final UserService userService;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.getByUserName(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority("USER"));
-        return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    User user = userService.getByUserName(username);
+    if (user == null) {
+      throw new UsernameNotFoundException("User not found");
     }
+
+    List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+    authorities.add(new SimpleGrantedAuthority("USER"));
+    return new org.springframework.security.core.userdetails.User(username, user.getPassword(),
+        authorities);
+  }
 }

@@ -19,24 +19,22 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService extends AbstractService<User, Long> {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    @Override
-    protected JpaRepository<User, Long> getRepository() {
-        return userRepository;
-    }
+  @Override
+  protected JpaRepository<User, Long> getRepository() {
+    return userRepository;
+  }
 
-    public User getByUserName(String username) {
-        return userRepository
-                .findByUsername(username);
-    }
+  public User getByUserName(String username) {
+    return userRepository.findByUsername(username);
+  }
 
-    public Boolean existsByUsername(String username) {
-        return userRepository
-                .existsByUsername(username);
-    }
+  public Boolean existsByUsername(String username) {
+    return userRepository.existsByUsername(username);
+  }
 
-    public User currentUser() {
-        return getByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
-    }
+  public User currentUser() {
+    return getByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
+  }
 }
