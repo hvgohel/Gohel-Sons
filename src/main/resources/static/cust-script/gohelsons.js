@@ -14,6 +14,7 @@ function myFunction() {
    document.getElementById("div-front").style.display = 'block';
    document.getElementById("div-culf").style.display = 'block';
    document.getElementById("div-inseam").style.display = 'block';
+   document.getElementById("div-payment").style.display = 'none';
  } else {
    document.getElementById("shirtTitle").innerHTML = 'Kurti Measurement Details';
    document.getElementById("pentTitle").innerHTML = 'Salwar Measurement Details';
@@ -28,6 +29,7 @@ function myFunction() {
    document.getElementById("div-front").style.display = 'none';
    document.getElementById("div-culf").style.display = 'none';
    document.getElementById("div-inseam").style.display = 'none';
+   document.getElementById("div-payment").style.display = 'none';
  }
 }
 

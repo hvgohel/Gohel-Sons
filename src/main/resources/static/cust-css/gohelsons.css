@@ -1,0 +1,22 @@
+.disabled-link {
+    opacity: 0.65;
+    pointer-events: none;
+}
+
+.table-scroll {
+    position: relative;
+    height: 630px;
+    overflow: auto;
+}
+
+p {
+    font-size: x-large;
+}
+
+label, .form-control {
+    font-size: large;
+}
+
+.form-control {
+    height: auto;
+}
