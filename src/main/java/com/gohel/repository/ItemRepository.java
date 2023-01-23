@@ -5,15 +5,16 @@ import com.gohel.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
   Page<Item> findAllByUser(User user, Pageable pageable);
 
-  Page<Item> findAllByUserAndTypeLike(User user, String type, Pageable pageable);
-
-  List<Item> findAllByUser(User user);
+  @Query(
+      "SELECT s FROM Item s WHERE s.user.id = ?1 AND (type LIKE ?2 OR description = ?3 OR address = ?4 OR purchaseDate = ?5 " +
+          "OR quantity = ?6 OR amount = ?7)")
+  Page<Item> search(Long userId, String type, String description, String address, String purchaseDate, String quantity,
+      String amount, Pageable pageable);
 }

@@ -2,15 +2,13 @@ package com.gohel.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(schema = "gohel_and_sons")
 public class User extends AbstractModel<Long> {
 
   @Column(nullable = false)
@@ -20,7 +18,11 @@ public class User extends AbstractModel<Long> {
   private String password;
 
   private String firstName;
+  private String middleName;
   private String lastName;
   private String city;
   private String email;
+  private String mobile;
+  private String companyName;
+  private String companyAddress;
 }

@@ -1,37 +1,43 @@
 package com.gohel.controller;
 
+import com.gohel.model.School;
+import com.gohel.service.SchoolService;
+import com.gohel.service.StudentService;
 import com.gohel.service.UserService;
+import com.gohel.utils.API;
+import com.gohel.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.gohel.model.School;
-import com.gohel.service.SchoolService;
-import com.gohel.service.StudentService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Collections;
+
+import static com.gohel.utils.API.SEARCH;
+import static com.gohel.utils.API.*;
+import static com.gohel.utils.Constants.*;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping(API.SCHOOLS)
 public class SchoolController {
 
   private final UserService userService;
   private final SchoolService schoolService;
   private final StudentService studentService;
 
-  @RequestMapping(value = "/schools")
+  @RequestMapping
   public String index() {
-    return "redirect:/schools/index";
+    return SCHOOLS_REDIRECT_INDEX;
   }
 
-  @RequestMapping(value = {"/schools/index", "/schools/search"}, method = RequestMethod.GET)
+  @GetMapping({INDEX, SEARCH})
   public String list(@RequestParam(defaultValue = "1", required = false) Integer pageNumber,
       Model model, String search) {
     Page<School> page = new PageImpl(Collections.EMPTY_LIST);
@@ -47,41 +53,41 @@ public class SchoolController {
       school.setTotalStudent(studentService.getTotalStudent(school.getId()));
     }
 
-    int current = page.getNumber() + 1;
-    int begin = Math.max(1, current - 5);
-    int end = Math.min(begin + 10, page.getTotalPages());
-
-    model.addAttribute("list", page);
-    model.addAttribute("beginIndex", begin);
-    model.addAttribute("endIndex", end);
-    model.addAttribute("currentIndex", current);
-    model.addAttribute("search", search);
-    return "schools/list";
+    Utils.setPagination(page, model, search,
+        page.stream().mapToDouble(t -> Double.valueOf(t.getTotalAmount())).sum());
+    return SCHOOLS_REDIRECT_LIST;
   }
 
-  @RequestMapping("/schools/add")
+  @RequestMapping(ADD)
   public String add(Model model) {
     model.addAttribute("school", new School());
-    return "schools/form";
+    return SCHOOLS_REDIRECT_FORM;
   }
 
-  @RequestMapping("/schools/edit/{id}")
+  @RequestMapping(EDIT)
   public String edit(@PathVariable Long id, Model model) {
     model.addAttribute("school", schoolService.get(id));
-    return "schools/form";
+    return SCHOOLS_REDIRECT_FORM;
   }
 
-  @RequestMapping(value = "/schools/save", method = RequestMethod.POST)
+  @PostMapping(SAVE)
   public String save(School school, final RedirectAttributes ra) {
     school.setUser(userService.currentUser());
     schoolService.save(school);
     ra.addFlashAttribute("successFlash", "School save successfully");
-    return "redirect:/schools";
+    return SCHOOLS_REDIRECT;
   }
 
-  @RequestMapping("/schools/delete/{id}")
+  @RequestMapping(DELETE)
   public String delete(@PathVariable Long id) {
     schoolService.delete(id);
-    return "redirect:/schools";
+    return SCHOOLS_REDIRECT;
+  }
+
+  @RequestMapping(INVOICE)
+  public void invoice(@PathVariable Long id, HttpServletResponse response) throws IOException {
+    response.setContentType("application/pdf");
+    response.setHeader("Content-Disposition", "attachment; filename=school-invoice.pdf");
+    schoolService.invoice(response, id);
   }
 }

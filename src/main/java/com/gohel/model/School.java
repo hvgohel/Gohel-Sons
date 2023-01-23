@@ -1,14 +1,13 @@
 package com.gohel.model;
 
-import javax.persistence.*;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import javax.persistence.*;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(schema = "gohel_and_sons")
 public class School extends AbstractModel<Long> {
 
   @Column(nullable = false)
@@ -16,10 +15,11 @@ public class School extends AbstractModel<Long> {
 
   private String address;
 
-  @Column(nullable = false, unique = true)
+  @Column(nullable = false)
   private String email;
 
   private String deliveryDate;
+  private String invoice;
 
   @Transient
   private Integer totalAmount;

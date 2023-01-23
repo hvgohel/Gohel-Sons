@@ -3,22 +3,19 @@ package com.gohel.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
-public class Item extends AbstractModel<Long> {
-  @Column(nullable = false)
-  private String type;
+public class Transaction extends AbstractModel<Long> {
+  private String date;
+  private String receivedDate;
   private String description;
-  private String address;
-  private String purchaseDate;
-  private String quantity;
   private String amount;
-
-  @Column(columnDefinition = "LONGTEXT")
-  private String receipt;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")

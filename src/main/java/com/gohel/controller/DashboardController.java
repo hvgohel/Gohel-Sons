@@ -1,26 +1,34 @@
 package com.gohel.controller;
 
+import com.gohel.model.Student;
+import com.gohel.model.User;
+import com.gohel.service.StudentService;
+import com.gohel.service.UserService;
+import com.gohel.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import com.gohel.model.Student;
-import com.gohel.service.StudentService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+
+import static com.gohel.utils.API.*;
+import static com.gohel.utils.API.SEARCH;
+import static com.gohel.utils.Constants.*;
 
 @Controller
 @RequiredArgsConstructor
 public class DashboardController {
 
   private final StudentService studentService;
+  private final UserService userService;
+  private final BCryptPasswordEncoder passwordEncoder;
 
-  @RequestMapping(path = {"/", "/search"})
+  @RequestMapping({ROOT, SEARCH})
   public String index(@RequestParam(defaultValue = "1", required = false) Integer pageNumber,
       Model model, String search) {
     Page<Student> page = new PageImpl(Collections.EMPTY_LIST);
@@ -30,19 +38,11 @@ public class DashboardController {
       page = studentService.search(pageNumber, search);
     }
 
-    int current = page.getNumber() + 1;
-    int begin = Math.max(1, current - 5);
-    int end = Math.min(begin + 10, page.getTotalPages());
-
-    model.addAttribute("list", page);
-    model.addAttribute("beginIndex", begin);
-    model.addAttribute("endIndex", end);
-    model.addAttribute("currentIndex", current);
-    model.addAttribute("search", search);
-    return "dashboard/index";
+    Utils.setPagination(page, model, search, 0.0);
+    return DASHBOARD_REDIRECT_INDEX;
   }
 
-  @RequestMapping("/payment/{id}")
+  @RequestMapping(PAYMENT)
   public String edit(@PathVariable Long id, String payment, Integer pageNumber, String search) {
     Student customer = studentService.get(id);
     customer.setPayment(payment.equalsIgnoreCase("Unpaid") ? "Paid" : "Unpaid");
@@ -53,5 +53,19 @@ public class DashboardController {
     }
 
     return redirectUrl;
+  }
+
+  @GetMapping(PROFILE)
+  public String get(Model model) {
+    model.addAttribute("user", userService.currentUser());
+    return USER_REDIRECT_PROFILE;
+  }
+
+  @PostMapping(USER + PROFILE)
+  public String update(User user) {
+    String password = user.getPassword();
+    user.setPassword(passwordEncoder.encode(password));
+    userService.save(user);
+    return USER_REDIRECT_PROFILE;
   }
 }

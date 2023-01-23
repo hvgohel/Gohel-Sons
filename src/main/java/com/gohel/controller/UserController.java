@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.EntityExistsException;
 
+import static com.gohel.utils.API.REGISTER;
+import static com.gohel.utils.Constants.USER_REDIRECT_LOGIN;
+import static com.gohel.utils.Constants.USER_REDIRECT_REGISTRATION;
+
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/register")
+@RequestMapping(REGISTER)
 public class UserController {
 
   private final UserService userService;
@@ -23,7 +27,7 @@ public class UserController {
   @GetMapping
   public String register(Model model) {
     model.addAttribute("user", new User());
-    return "registration";
+    return USER_REDIRECT_REGISTRATION;
   }
 
   @PostMapping
@@ -34,6 +38,6 @@ public class UserController {
 
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     userService.save(user);
-    return "redirect:/login";
+    return USER_REDIRECT_LOGIN;
   }
 }

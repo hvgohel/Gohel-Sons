@@ -1,25 +1,29 @@
 package com.gohel.controller;
 
+import com.gohel.model.Student;
+import com.gohel.service.StudentService;
 import com.gohel.service.UserService;
+import com.gohel.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.gohel.model.Student;
-import com.gohel.service.StudentService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Collections;
 
+import static com.gohel.utils.API.SEARCH;
+import static com.gohel.utils.API.*;
+import static com.gohel.utils.Constants.*;
+
 @Controller
-@RequestMapping(value = "/customers")
 @RequiredArgsConstructor
+@RequestMapping(CUSTOMERS)
 public class CustomerController {
 
   private final StudentService studentService;
@@ -27,10 +31,10 @@ public class CustomerController {
 
   @RequestMapping
   public String index() {
-    return "redirect:/customers/index";
+    return CUSTOMERS_REDIRECT_INDEX;
   }
 
-  @RequestMapping(value = {"/index", "/search"}, method = RequestMethod.GET)
+  @GetMapping({INDEX, SEARCH})
   public String list(@RequestParam(defaultValue = "1", required = false) Integer pageNumber,
       Model model, String search) {
     Page<Student> page = new PageImpl(Collections.EMPTY_LIST);
@@ -40,31 +44,24 @@ public class CustomerController {
       page = studentService.searchCustomer(pageNumber, search);
     }
 
-    int current = page.getNumber() + 1;
-    int begin = Math.max(1, current - 5);
-    int end = Math.min(begin + 10, page.getTotalPages());
-
-    model.addAttribute("list", page);
-    model.addAttribute("beginIndex", begin);
-    model.addAttribute("endIndex", end);
-    model.addAttribute("currentIndex", current);
-    model.addAttribute("search", search);
-    return "customers/list";
+    Utils.setPagination(page, model, search,
+        page.stream().mapToDouble(t -> Double.valueOf(t.getPrice())).sum());
+    return CUSTOMERS_REDIRECT_LIST;
   }
 
-  @RequestMapping("/add")
+  @RequestMapping(ADD)
   public String add(Model model) {
     model.addAttribute("student", new Student());
-    return "customers/form";
+    return CUSTOMERS_REDIRECT_FORM;
   }
 
-  @RequestMapping("/edit/{id}")
+  @RequestMapping(EDIT)
   public String edit(@PathVariable Long id, Model model) {
     model.addAttribute("student", studentService.get(id));
-    return "customers/form";
+    return CUSTOMERS_REDIRECT_FORM;
   }
 
-  @RequestMapping("/payment/{id}")
+  @RequestMapping(PAYMENT)
   public String edit(@PathVariable Long id, String payment, Integer pageNumber, String search) {
     Student customer = studentService.get(id);
     customer.setPayment(payment.equalsIgnoreCase("Unpaid") ? "Paid" : "Unpaid");
@@ -78,17 +75,24 @@ public class CustomerController {
     return redirectUrl;
   }
 
-  @RequestMapping(value = "/save", method = RequestMethod.POST)
+  @PostMapping(SAVE)
   public String save(Student customer, final RedirectAttributes ra) {
     customer.setUser(userService.currentUser());
     studentService.save(customer);
     ra.addFlashAttribute("successFlash", "customer save successfully");
-    return "redirect:/customers";
+    return CUSTOMERS_REDIRECT;
   }
 
-  @RequestMapping("/delete/{id}")
+  @RequestMapping(DELETE)
   public String delete(@PathVariable Long id) {
     studentService.delete(id);
-    return "redirect:/customers";
+    return CUSTOMERS_REDIRECT;
+  }
+
+  @RequestMapping(INVOICE)
+  public void invoice(@PathVariable Long id, HttpServletResponse response) throws IOException {
+    response.setContentType("application/pdf");
+    response.setHeader("Content-Disposition", "attachment; filename=customer-invoice.pdf");
+    studentService.invoice(response, id);
   }
 }

@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +12,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(schema = "gohel_and_sons")
 public class Student extends AbstractModel<Long> {
 
   @Column(nullable = false)
@@ -24,8 +22,11 @@ public class Student extends AbstractModel<Long> {
   private String gender;
   private String address;
   private String mobile;
+  private Integer noofShirtKurti;
+  private Integer noofPentSalwar;
   private Integer price;
   private String payment;
+  private String invoice;
 
   // kurti
   private String kurtiWaist;
