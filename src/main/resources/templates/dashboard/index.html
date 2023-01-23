@@ -2,13 +2,6 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
 <head>
     <title>Dashboard</title>
-    <style>
-        .disabled-link {
-          opacity: 0.65;
-          pointer-events: none;
-        }
-
-    </style>
 </head>
 <body>
 
@@ -27,7 +20,7 @@
                 </div>
             </form>
         </div>
-        <div class="box-body no-padding">
+        <div class="box-body no-padding table-scroll">
             <table class="table table-striped">
                 <tr>
                     <th width="7%"></th>
@@ -179,6 +172,13 @@
                             <button type="button"
                                     th:class="${row.payment == 'Paid' ? 'btn btn-success' : 'btn btn-danger'}"
                                     style="padding: 2px 7px" th:text="${row.payment}"></button>
+                        </a>
+                        &nbsp;
+                        <a th:if="${row.school == null}" th:href="${'/customers/invoice/' + row.id}" target="_blank"
+                           style="text-decoration: none;">
+                            <button type="button" class="btn btn-default" style="color: #3c8dbc; padding: 2px 7px">
+                                Invoice
+                            </button>
                         </a>
                     </td>
                 </tr>

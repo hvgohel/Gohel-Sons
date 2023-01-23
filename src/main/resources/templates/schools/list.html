@@ -3,13 +3,6 @@
       layout:decorator="layout">
 <head>
     <title>Schools</title>
-    <style>
-        .disabled-link {
-          opacity: 0.65;
-          pointer-events: none;
-        }
-
-    </style>
 </head>
 <body>
 <section layout:fragment="header">
@@ -34,7 +27,7 @@
                 </div>
             </form>
         </div>
-        <div class="box-body no-padding">
+        <div class="box-body no-padding table-scroll">
             <table class="table table-striped">
                 <tr>
                     <th width="7%"></th>
@@ -44,6 +37,7 @@
                     <th>Delivery Date</th>
                     <th>Total Student</th>
                     <th>Total Amount</th>
+                    <th></th>
                 </tr>
                 <tr th:each="row : ${list}">
                     <td>
@@ -57,6 +51,11 @@
                     <td th:text="${row.deliveryDate}"></td>
                     <td th:text="${row.totalStudent}"></td>
                     <td th:text="${row.totalAmount}"></td>
+                    <td>
+                        <a th:if="${row.totalAmount > 0}" th:href="${'/schools/invoice/' + row.id}" target="_blank" style="text-decoration: none;">
+                            <button type="button" class="btn btn-default" style="color: #3c8dbc; padding: 2px 7px">Invoice</button>
+                        </a>
+                    </td>
                 </tr>
                 <tr th:if="${list.isEmpty()}">
                     <td></td>
@@ -65,10 +64,13 @@
             </table>
         </div>
         <div th:if="${!list.isEmpty()}" class="box-footer clearfix">
+            <ul class="badge label-primary pagination pagination-sm no-margin pull-center">
+                <li style="font-size: x-large;">Total Amount : <b th:text="${total}"></b></li>
+            </ul>
             <ul class="pagination pagination-sm no-margin pull-right">
                 <li>
                     <a th:href="${search == null ? '/schools/index?pageNumber=' + (currentIndex - 1) : '/schools/search?search=' + search + '&pageNumber=' + (currentIndex-1)}"
-                       th:class="${currentIndex == 1 ? 'disabled-link' : ''}">Previous</a></li>
+                       th:clas s="${currentIndex == 1 ? 'disabled-link' : ''}">Previous</a></li>
                 <li th:each="p : ${#numbers.sequence(1, endIndex/beginIndex)}"
                     th:class="${p == currentIndex} ? 'active' : ''">
                     <a th:href="${search == null ? '/schools/index?pageNumber=' + p : '/schools/search?search=' + search + '&pageNumber=' + p}"

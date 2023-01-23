@@ -3,13 +3,6 @@
       layout:decorator="layout">
 <head>
     <title>Customers</title>
-    <style>
-        .disabled-link {
-          opacity: 0.65;
-          pointer-events: none;
-        }
-
-    </style>
 </head>
 <body>
 <section layout:fragment="header">
@@ -34,7 +27,7 @@
                 </div>
             </form>
         </div>
-        <div class="box-body no-padding">
+        <div class="box-body no-padding table-scroll">
             <table class="table table-striped">
                 <tr>
                     <th width="7%"></th>
@@ -183,7 +176,13 @@
                            style="text-decoration: none;">
                             <button type="button"
                                     th:class="${row.payment == 'Paid' ? 'btn btn-success' : 'btn btn-danger'}"
-                                    style="padding: 2px 7px" th:text="${row.payment}"></button>
+                                    style="padding: 2px 7px" th:text="${row.payment != 'Paid' ? 'Unpaid' : 'Paid'}"></button>
+                        </a>
+                        &nbsp;
+                        <a th:href="${'/customers/invoice/' + row.id}" target="_blank" style="text-decoration: none;">
+                            <button type="button" class="btn btn-default" style="color: #3c8dbc; padding: 2px 7px">
+                                Invoice
+                            </button>
                         </a>
                     </td>
                 </tr>
@@ -194,6 +193,9 @@
             </table>
         </div>
         <div th:if="${!list.isEmpty()}" class="box-footer clearfix">
+            <ul class="badge label-primary pagination pagination-sm no-margin pull-center">
+                <li style="font-size: x-large;">Total Amount : <b th:text="${total}"></b></li>
+            </ul>
             <ul class="pagination pagination-sm no-margin pull-right">
                 <li>
                     <a th:href="${search == null ? '/customers/index?pageNumber=' + (currentIndex-1) : '/customers/search?search=' + search + '&pageNumber=' + (currentIndex-1)}"

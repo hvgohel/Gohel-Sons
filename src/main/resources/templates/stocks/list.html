@@ -2,29 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout">
 <head>
-    <title>Customers</title>
-    <style>
-        .disabled-link {
-          opacity: 0.65;
-          pointer-events: none;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </style>
+    <title>Stocks</title>
 </head>
 <body>
 <section layout:fragment="header">
@@ -49,7 +27,7 @@
                 </div>
             </form>
         </div>
-        <div class="box-body no-padding">
+        <div class="box-body no-padding table-scroll">
             <table class="table table-striped">
                 <tr>
                     <th width="7%"></th>
@@ -58,9 +36,8 @@
                     <th>Description</th>
                     <th>Quantity</th>
                     <th>Address</th>
-                    <th>Status</th>
-                    <th>Comment</th>
                     <th>Amount</th>
+                    <th></th>
                 </tr>
                 <tr th:each="row : ${list}">
                     <td>
@@ -71,10 +48,8 @@
                     <td th:text="${row.purchaseDate}"></td>
                     <td th:text="${row.type}"></td>
                     <td th:text="${row.description}"></td>
-                    <td th:text="${row.quantity}"></td>
+                    <td th:text="${row.type == 'fabrics' ? row.quantity + ' meter' : row.quantity}"></td>
                     <td th:text="${row.address}"></td>
-                    <td th:text="${row.status}"></td>
-                    <td th:text="${row.comment}"></td>
                     <td th:text="${row.amount}"></td>
                     <td>
                         <button type="button" class="btn btn-info" style="padding: 2px 7px" data-toggle="modal"
@@ -107,7 +82,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        &nbsp;
                         <button type="button" class="btn btn-info" th:if="${row.receipt != null and row.receipt != ''}" style="padding: 2px 7px " data-toggle="modal"
                                 th:attr="data-target=${'#modal'+row.id}">Show Bill
                         </button>
@@ -140,6 +115,9 @@
             </table>
         </div>
         <div th:if="${!list.isEmpty()}" class="box-footer clearfix">
+            <ul class="badge label-primary pagination pagination-sm no-margin pull-center">
+                <li style="font-size: x-large;">Total Amount : <b th:text="${total}"></b></li>
+            </ul>
             <ul class="pagination pagination-sm no-margin pull-right">
                 <li>
                     <a th:href="${search == null ? '/stocks/index?pageNumber=' + (currentIndex-1) : '/stocks/search?search=' + search + '&pageNumber=' + (currentIndex-1)}"

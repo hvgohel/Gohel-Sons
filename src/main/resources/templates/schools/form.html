@@ -6,27 +6,23 @@
 </head>
 <body>
 <section layout:fragment="header">
-    <h1>Add or Update School</h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-dashboard"></i>Dashboard</a></li>
         <li class="active">School Registration</li>
     </ol>
 </section>
-<div layout:fragment="content">
-    <div class="box">
+<div layout:fragment="content" style="padding: 30px 20%;">
+    <div class="box" style="border: 1px solid;">
         <div class="box-header with-border">
-            <h3 class="box-title">Enter School Details</h3>
-            <div class="box-tools pull-right">
-                <a href="/schools" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
-            </div>
+            <h2 style="text-align: center;">Enter School Details</h2>
         </div>
-        <form data-toggle="validator" role="form" th:object="${school}" th:action="@{/schools/save}" method="post">
+        <form data-toggle="validator" role="form" th:object="${school}" th:action="@{/schools/save}" method="post" style="padding: 0 10%;">
             <div class="box-body">
                 <input type="hidden" th:field="*{id}"/>
 
                 <div class="form-group">
                     <label for="name">School Name</label>
-                    <input type="text" required class="form-control" th:field="*{name}" id="name" placeholder="Name"/>
+                    <input type="text" required pattern="^[A-Za-z]*[A-Za-z][A-Za-z0-9-. _]*$" class="form-control" th:field="*{name}" id="name" placeholder="Name"/>
                 </div>
                 <div class="form-group">
                     <label for="address">Address</label>
