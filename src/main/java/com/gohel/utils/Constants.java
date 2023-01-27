@@ -10,6 +10,7 @@ public interface Constants {
   String BEGIN_INDEX = "beginIndex";
   String END_INDEX = "endIndex";
   String CURRENT_INDEX = "currentIndex";
+  String USER = "user";
   String SEARCH = "search";
   String REDIRECT = "redirect:";
   Integer DISPLAY_RECORD = 100;

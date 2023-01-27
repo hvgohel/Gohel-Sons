@@ -23,6 +23,9 @@ public class User extends AbstractModel<Long> {
   private String city;
   private String email;
   private String mobile;
+
+  @Column(columnDefinition = "LONGTEXT")
+  private String profile;
   private String companyName;
   private String companyAddress;
 }

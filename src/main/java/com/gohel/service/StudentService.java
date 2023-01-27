@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static com.gohel.utils.Constants.*;
+import static com.gohel.utils.Utils.getInvoiceHtml;
 
 @Service
 @RequiredArgsConstructor
@@ -86,14 +87,11 @@ public class StudentService extends AbstractService<Student, Long> {
         "Shirt: " + noofShirtKurti + ", Pent: " + noofPentSalwar :
         "Kurti: " + noofShirtKurti + ", Salwar: " + noofPentSalwar;
     String invoiceHtml =
-        "<table style=\"border: 2px solid; width: 100%; padding: 0 20px; color: SteelBlue; font-size: 20px\">\n" + "    <tr>\n" + "        <td colspan=\"3\" style=\"padding: 20px 0;\">\n" + "            <h1 style=\"color: green; text-align: center;\">INVOICE</h1>\n" + "        </td>\n" + "    </tr>\n" + "    <tr>\n" + "        <td style=\"width: 40%;\"><b>Date:</b></td>\n" + "        <td><b>To:<b></td>\n" + "    </tr>\n" + "    <tr>\n" + "        <td>{deliveryDate}</td>\n" + "        <td>{name}</td>\n" + "    </tr>\n" + "    <tr>\n" + "        <td></td>\n" + "        <td colspan=\"2\">{address}</td>\n" + "    </tr>\n" + "    <tr>\n" + "        <td><b>Invoice:<b></td>\n" + "        <td><b>Contact Info:<b></td>\n" + "    </tr>\n" + "    <tr>\n" + "        <td>{invoice}</td>\n" + "        <td>{contact}</td>\n" + "    </tr>\n" + "    <tr>\n" + "        <th colspan=\"2\" style=\"padding-top: 100px\"></th>\n" + "    </tr>\n" + "    <tr>\n" + "        <th style=\"text-align: left; border: 1px solid\">Description</th>\n" + "        <th width=\"15%\" style=\"text-align: left; border: 1px solid\">Quantity</th>\n" + "        <th width=\"15%\" style=\"text-align: left; border: 1px solid\">Amount</th>\n" + "    </tr>\n" + "    <tr>\n" + "        <td>{description}</td>\n" + "        <td>{quantity}</td>\n" + "        <td>{amount}</td>\n" + "    </tr>\n" + "    <td colspan=\"3\" style=\"padding-top: 200px\">\n" + "        <h2 style=\"color: green; text-align: center;\">Gohel &amp; Son's | Location : Dhoraji, Gujarat | Mobile: 1234567890</h2>\n" + "    </td>\n" + "    </tr>\n" + "</table>";
-    invoiceHtml =
-        invoiceHtml.replace("{name}", student.getName()).replace("{address}", student.getAddress())
-            .replace("{contact}", student.getMobile())
-            .replace("{deliveryDate}", student.getDeliveryDate())
-            .replace("{invoice}", student.getInvoice()).replace("{description}", description)
-            .replace("{quantity}", totalQuantity.toString())
-            .replace("{amount}", student.getPrice().toString());
+        getInvoiceHtml(student.getName(), student.getAddress(), student.getMobile(),
+            student.getDeliveryDate(), student.getInvoice(), description, totalQuantity.toString(),
+            student.getPrice().toString(), student.getUser().getCompanyName(),
+            student.getUser().getCompanyAddress(), student.getUser().getMobile());
+
     HtmlConverter.convertToPdf(invoiceHtml, response.getOutputStream());
   }
 }

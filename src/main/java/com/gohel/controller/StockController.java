@@ -20,6 +20,7 @@ import java.util.Collections;
 import static com.gohel.utils.API.*;
 import static com.gohel.utils.API.SEARCH;
 import static com.gohel.utils.Constants.*;
+import static com.gohel.utils.Constants.USER;
 
 @Controller
 @RequiredArgsConstructor
@@ -44,12 +45,14 @@ public class StockController {
       page = itemService.search(pageNumber, search);
     }
 
-    Utils.setPagination(page, model, search, page.stream().mapToDouble(t -> Double.valueOf(t.getAmount())).sum());
+    Utils.setPagination(page, model, search, page.stream().mapToDouble(t -> Double.valueOf(t.getAmount())).sum(),
+        userService.currentUser());
     return STOCKS_REDIRECT_LIST;
   }
 
   @RequestMapping(ADD)
   public String add(Model model) {
+    model.addAttribute(USER, userService.currentUser());
     model.addAttribute("item", new Item());
     return STOCK_REDIRECT_FORM;
   }
@@ -70,6 +73,7 @@ public class StockController {
 
   @RequestMapping(EDIT)
   public String edit(@PathVariable Long id, Model model) {
+    model.addAttribute(USER, userService.currentUser());
     model.addAttribute("item", itemService.get(id));
     return STOCK_REDIRECT_FORM;
   }

@@ -19,6 +19,7 @@ import java.util.Collections;
 import static com.gohel.utils.API.*;
 import static com.gohel.utils.Constants.*;
 import static com.gohel.utils.Constants.SEARCH;
+import static com.gohel.utils.Constants.USER;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,7 +36,8 @@ public class StudentController {
   }
 
   @GetMapping({INDEX, SEARCH})
-  public String list(@RequestParam(defaultValue = "1", required = false) Integer pageNumber, Model model, String search) {
+  public String list(@RequestParam(defaultValue = "1", required = false) Integer pageNumber,
+      Model model, String search) {
     Page<Student> page = new PageImpl(Collections.EMPTY_LIST);
     if (StringUtils.isEmpty(search)) {
       page = studentService.getStudents(pageNumber);
@@ -43,7 +45,9 @@ public class StudentController {
       page = studentService.searchStudent(pageNumber, search);
     }
 
-    Utils.setPagination(page, model, search, page.stream().mapToDouble(t -> Double.valueOf(t.getPrice())).sum());
+    Utils.setPagination(page, model, search,
+        page.stream().mapToDouble(t -> Double.valueOf(t.getPrice())).sum(),
+        userService.currentUser());
     return STUDENTS_REDIRECT_LIST;
   }
 
@@ -51,6 +55,7 @@ public class StudentController {
   public String add(Model model) {
     model.addAttribute("student", new Student());
     model.addAttribute("schools", schoolService.getAllSchool());
+    model.addAttribute(USER, userService.currentUser());
     return STUDENTS_REDIRECT_FORM;
   }
 
@@ -58,6 +63,7 @@ public class StudentController {
   public String edit(@PathVariable Long id, Model model) {
     model.addAttribute("student", studentService.get(id));
     model.addAttribute("schools", schoolService.getAllSchool());
+    model.addAttribute(USER, userService.currentUser());
     return STUDENTS_REDIRECT_FORM;
   }
 

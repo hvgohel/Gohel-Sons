@@ -20,6 +20,7 @@ import java.util.List;
 import static com.gohel.utils.API.SEARCH;
 import static com.gohel.utils.API.*;
 import static com.gohel.utils.Constants.*;
+import static com.gohel.utils.Constants.USER;
 
 @Controller
 @RequiredArgsConstructor
@@ -44,13 +45,16 @@ public class TransactionController {
       page = transactionService.search(pageNumber, search);
     }
 
-    Utils.setPagination(page, model, search, page.stream().mapToDouble(t -> Double.valueOf(t.getAmount())).sum());
+    Utils.setPagination(page, model, search,
+        page.stream().mapToDouble(t -> Double.valueOf(t.getAmount())).sum(),
+        userService.currentUser());
     return TRANSACTIONS_REDIRECT_LIST;
   }
 
   @RequestMapping(ADD)
   public String add(Model model) {
     model.addAttribute("transaction", new Transaction());
+    model.addAttribute(USER, userService.currentUser());
     return TRANSACTIONS_REDIRECT_FORM;
   }
 
@@ -65,6 +69,7 @@ public class TransactionController {
   @RequestMapping(EDIT)
   public String edit(@PathVariable Long id, Model model) {
     model.addAttribute("transaction", transactionService.get(id));
+    model.addAttribute(USER, userService.currentUser());
     return TRANSACTIONS_REDIRECT_FORM;
   }
 

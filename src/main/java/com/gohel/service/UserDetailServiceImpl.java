@@ -1,7 +1,6 @@
 package com.gohel.service;
 
 import com.gohel.model.User;
-import com.gohel.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

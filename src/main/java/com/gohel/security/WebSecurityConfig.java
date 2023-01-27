@@ -21,20 +21,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
-      .antMatchers("/bootstrap/**", "/dist/**", "/plugins/**", "/register").permitAll()
-      .anyRequest().authenticated()
-      .and()
-    .formLogin()
-      .failureUrl("/login?error")
-      .loginPage("/login")
-      .defaultSuccessUrl("/")
-      .permitAll()
-      .and()
-    .logout()
-      .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-      .logoutSuccessUrl("/login")
-      .permitAll();
+      http.authorizeRequests()
+        .antMatchers("/bootstrap/**", "/dist/**", "/plugins/**", "/register").permitAll()
+        .anyRequest().authenticated()
+        .and()
+      .formLogin()
+        .failureUrl("/login?error")
+        .loginPage("/login")
+        .defaultSuccessUrl("/")
+        .permitAll()
+        .and()
+      .logout()
+        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        .logoutSuccessUrl("/login")
+        .permitAll();
    }
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -45,7 +45,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         // add components
         auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
-
         /*List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("USER"));
         User userDetails = new User("dilip", encoder.encode("dilip"), authorities);*/
