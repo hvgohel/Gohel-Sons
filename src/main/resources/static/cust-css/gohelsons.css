@@ -5,7 +5,7 @@
 
 .table-scroll {
     position: relative;
-    height: 630px;
+    height: 400px;
     overflow: auto;
 }
 
