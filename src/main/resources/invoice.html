@@ -1,44 +1,53 @@
 <table style="border: 2px solid; width: 100%; padding: 0 20px; color: SteelBlue; font-size: 20px">
-  <tr>
-    <td colspan="3" style="padding: 20px 0;">
-      <h1 style="color: green; text-align: center;">INVOICE</h1>
-    </td>
-  </tr>
-  <tr>
-    <td style="width: 50%;"><b>Date:</b></td>
-    <td><b>To:<b></td>
-  </tr>
-  <tr>
-    <td>{deliveryDate}</td>
-    <td>{name}</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td colspan="2">{address}</td>
-  </tr>
-  <tr>
-    <td><b>Invoice:<b></td>
-    <td><b>Contact Info:<b></td>
-  </tr>
-  <tr>
-    <td>{invoice}</td>
-    <td>{contact}</td>
-  </tr>
-  <tr>
-    <th colspan="2" style="padding-top: 100px"></th>
-  </tr>
-  <tr>
-    <th style="text-align: left; border: 1px solid">Description</th>
-    <th width="15%" style="text-align: left; border: 1px solid">Quantity</th>
-    <th width="15%" style="text-align: left; border: 1px solid">Amount</th>
-  </tr>
-  <tr>
-    <td>{description}</td>
-    <td>{quantity}</td>
-    <td>{amount}</td>
-  </tr>
-  <td colspan="3" style="padding-top: 200px">
-    <h2 style="color: green; text-align: center;">Gohel &amp; Son's | Location : Dhoraji, Gujarat | Mobile: 1234567890</h2>
-  </td>
-  </tr>
+    <tr>
+        <td colspan="3" style="padding: 20px 0;">
+            <h1 style="color: green; text-align: center;">INVOICE</h1>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 40%;">
+            <b>Date:</b>
+        </td>
+        <td>
+            <b>To:</b>
+        </td>
+    </tr>
+    <tr>
+        <td>{deliveryDate}</td>
+        <td>{name}</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td colspan="2">{address}</td>
+    </tr>
+    <tr>
+        <td>
+            <b>Invoice:</b>
+        </td>
+        <td>
+            <b>Contact Info:</b>
+        </td>
+    </tr>
+    <tr>
+        <td>{invoice}</td>
+        <td>{contact}</td>
+    </tr>
+    <tr>
+        <th colspan="2" style="padding-top: 100px"></th>
+    </tr>
+    <tr>
+        <th style="text-align: left; border: 1px solid">Description</th>
+        <th width="15%" style="text-align: left; border: 1px solid">Quantity</th>
+        <th width="15%" style="text-align: left; border: 1px solid">Amount</th>
+    </tr>
+    <tr>
+        <td>{description}</td>
+        <td>{quantity}</td>
+        <td>{amount}</td>
+    </tr>
+    <tr>
+        <td colspan="3" style="padding-top: 200px">
+            <h2 style="color: green; text-align: center;">{companyName} | Location : {companyAddress} | Mobile: {companyMobile}</h2>
+        </td>
+    </tr>
 </table>

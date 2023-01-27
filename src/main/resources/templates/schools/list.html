@@ -70,7 +70,7 @@
             <ul class="pagination pagination-sm no-margin pull-right">
                 <li>
                     <a th:href="${search == null ? '/schools/index?pageNumber=' + (currentIndex - 1) : '/schools/search?search=' + search + '&pageNumber=' + (currentIndex-1)}"
-                       th:clas s="${currentIndex == 1 ? 'disabled-link' : ''}">Previous</a></li>
+                       th:class="${currentIndex == 1 ? 'disabled-link' : ''}">Previous</a></li>
                 <li th:each="p : ${#numbers.sequence(1, endIndex/beginIndex)}"
                     th:class="${p == currentIndex} ? 'active' : ''">
                     <a th:href="${search == null ? '/schools/index?pageNumber=' + p : '/schools/search?search=' + search + '&pageNumber=' + p}"

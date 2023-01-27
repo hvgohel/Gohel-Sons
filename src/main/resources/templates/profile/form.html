@@ -5,14 +5,17 @@
     <title>Profile</title>
 </head>
 <body>
-<div layout:fragment="content" style="padding: 1px 20%;" >
-    <div class="box" style="border: 1px solid;" >
+<div layout:fragment="content" style="padding: 1px 20%;">
+    <div class="box" style="border: 1px solid;">
         <div class="box-header with-border">
             <h2 style="text-align: center;">Enter Profile Details</h2>
         </div>
-        <form data-toggle="validator" role="form" th:object="${user}" th:action="@{/user/profile}" method="post"  style="padding: 0 10%;">
+        <form data-toggle="validator" role="form" th:object="${user}" th:action="@{/user/profile}" method="post"
+              enctype="multipart/form-data"
+              style="padding: 0 10%;">
             <div class="box-body">
                 <input type="hidden" th:field="*{id}"/>
+                <input type="hidden" th:field="*{profile}"/>
 
                 <div class="form-group">
                     <label for="firstName">First Name</label>
@@ -61,6 +64,12 @@
                     <label for="password">Login Password</label>
                     <input type="password" class="form-control" id="password" placeholder="Login Password"
                            minlength="4" th:field="*{password}" required/>
+                </div>
+
+                <div class="form-group">
+                    <label for="profilePic">Upload Profile Picture</label>
+                    <input type="file" id="profilePic" class="form-control" name="profilePic"
+                           accept="image/*">
                 </div>
             </div>
             <div class="box-footer">

@@ -60,7 +60,7 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title">Show Bill</h1>
+                                        <h1 class="modal-title">Upload Bill</h1>
                                     </div>
                                     <div class="box-body">
                                         <form method="post" th:action="${'/stocks/billUpload/' + row.id}"
@@ -83,7 +83,8 @@
                             </div>
                         </div>
                         &nbsp;
-                        <button type="button" class="btn btn-info" th:if="${row.receipt != null and row.receipt != ''}" style="padding: 2px 7px " data-toggle="modal"
+                        <button type="button" class="btn btn-info" th:if="${row.receipt != null and row.receipt != ''}"
+                                style="padding: 2px 7px " data-toggle="modal"
                                 th:attr="data-target=${'#modal'+row.id}">Show Bill
                         </button>
                         <div class="modal fade" th:attr="id=${'modal'+row.id}" tabindex="-1" role="dialog"
@@ -96,7 +97,7 @@
                                     <div class="box-body">
                                         <div>
                                             <embed th:src="${'data:image/jpg;base64,' + row.receipt}" height="584px"
-                                                 width="730px">
+                                                   width="730px">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
