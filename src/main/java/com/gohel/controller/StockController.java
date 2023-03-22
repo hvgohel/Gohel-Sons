@@ -9,18 +9,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.Collections;
 
-import static com.gohel.utils.API.*;
 import static com.gohel.utils.API.SEARCH;
-import static com.gohel.utils.Constants.*;
+import static com.gohel.utils.API.*;
 import static com.gohel.utils.Constants.USER;
+import static com.gohel.utils.Constants.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,7 +45,8 @@ public class StockController {
       page = itemService.search(pageNumber, search);
     }
 
-    Utils.setPagination(page, model, search, page.stream().mapToDouble(t -> Double.valueOf(t.getAmount())).sum(),
+    Utils.setPagination(page, model, search,
+        page.stream().mapToDouble(t -> Double.valueOf(t.getAmount())).sum(),
         userService.currentUser());
     return STOCKS_REDIRECT_LIST;
   }
@@ -58,15 +59,26 @@ public class StockController {
   }
 
   @PostMapping(SAVE)
-  public String save(Item item, final RedirectAttributes ra) {
+  public String save(Item item,
+      @RequestParam(value = "designImage", required = false) MultipartFile designImage,
+      @RequestParam(value = "receiptImg", required = false) MultipartFile receipt)
+      throws IOException {
     item.setUser(userService.currentUser());
+    if (designImage != null && !designImage.isEmpty()) {
+      item.setDesignImg(Base64Utils.encodeToString(designImage.getBytes()));
+    }
+
+    if (receipt != null && !receipt.isEmpty()) {
+      item.setReceipt(Base64Utils.encodeToString(receipt.getBytes()));
+    }
+
     itemService.save(item);
-    ra.addFlashAttribute("successFlash", "item save successfully");
     return STOCKS_REDIRECT_INDEX;
   }
 
   @PostMapping(BILL_UPLOAD)
-  public String upload(@PathVariable Long id, @RequestParam("bill") MultipartFile file) throws IOException {
+  public String upload(@PathVariable Long id, @RequestParam("bill") MultipartFile file)
+      throws IOException {
     itemService.upload(id, file.getBytes());
     return STOCKS_REDIRECT_INDEX;
   }

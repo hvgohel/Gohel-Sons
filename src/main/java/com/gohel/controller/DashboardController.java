@@ -20,8 +20,9 @@ import java.io.IOException;
 import java.util.Collections;
 
 import static com.gohel.utils.API.*;
-import static com.gohel.utils.Constants.DASHBOARD_REDIRECT_INDEX;
-import static com.gohel.utils.Constants.USER_REDIRECT_PROFILE;
+import static com.gohel.utils.API.SEARCH;
+import static com.gohel.utils.API.USER;
+import static com.gohel.utils.Constants.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,6 +41,9 @@ public class DashboardController {
   @RequestMapping({ROOT, SEARCH})
   public String index(@RequestParam(defaultValue = "1", required = false) Integer pageNumber,
       Model model, String search) {
+    if (!StringUtils.isEmpty(ENABLE_MODULE)) {
+      return STOCKS_REDIRECT_INDEX;
+    }
     Page<Student> page = new PageImpl(Collections.EMPTY_LIST);
     if (StringUtils.isEmpty(search)) {
       page = studentService.getAllByUser(pageNumber);
@@ -71,10 +75,10 @@ public class DashboardController {
   }
 
   @PostMapping(USER + PROFILE)
-  public String update(User user, @RequestParam("profilePic") MultipartFile file)
-      throws IOException {
+  public String update(User user,
+      @RequestParam(value = "profilePic", required = false) MultipartFile file) throws IOException {
     String password = user.getPassword();
-    if (!file.isEmpty()) {
+    if (file != null && !file.isEmpty()) {
       user.setProfile(Base64Utils.encodeToString(file.getBytes()));
     }
     user.setPassword(passwordEncoder.encode(password));

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 import static com.gohel.utils.API.*;
 
 public interface Constants {
+  String ENABLE_MODULE = "/stocks/index";
   String LIST = "list";
   String TOTAL = "total";
   String BEGIN_INDEX = "beginIndex";

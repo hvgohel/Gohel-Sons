@@ -4,18 +4,22 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.sql.Blob;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
 public class Item extends AbstractModel<Long> {
-  @Column(nullable = false)
-  private String type;
+  private String design;
+  private String color;
   private String description;
   private String address;
   private String purchaseDate;
   private String quantity;
   private String amount;
+
+  @Column(columnDefinition = "LONGTEXT")
+  private String designImg;
 
   @Column(columnDefinition = "LONGTEXT")
   private String receipt;
