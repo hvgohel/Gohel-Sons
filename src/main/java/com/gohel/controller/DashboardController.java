@@ -81,7 +81,10 @@ public class DashboardController {
     if (file != null && !file.isEmpty()) {
       user.setProfile(Base64Utils.encodeToString(file.getBytes()));
     }
-    user.setPassword(passwordEncoder.encode(password));
+
+    if (StringUtils.hasText(password)) {
+      user.setPassword(passwordEncoder.encode(password));
+    }
     userService.save(user);
     return USER_REDIRECT_PROFILE;
   }
