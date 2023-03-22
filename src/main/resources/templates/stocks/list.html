@@ -32,10 +32,9 @@
                 <tr>
                     <th width="7%"></th>
                     <th>Purchase Date</th>
-                    <th>Type</th>
-                    <th>Description</th>
+                    <th>Design</th>
+                    <th>Color</th>
                     <th>Quantity</th>
-                    <th>Address</th>
                     <th>Amount</th>
                     <th></th>
                 </tr>
@@ -46,34 +45,28 @@
                         <a th:href="${'/stocks/delete/' + row.id}" class="glyphicon glyphicon-trash"></a>
                     </td>
                     <td th:text="${row.purchaseDate}"></td>
-                    <td th:text="${row.type}"></td>
-                    <td th:text="${row.description}"></td>
-                    <td th:text="${row.type == 'fabrics' ? row.quantity + ' meter' : row.quantity}"></td>
-                    <td th:text="${row.address}"></td>
+                    <td th:text="${row.design}"></td>
+                    <td><input type="color" th:attr="value=${row.color}"/></td>
+                    <td th:text="${row.quantity}"></td>
                     <td th:text="${row.amount}"></td>
                     <td>
-                        <button type="button" class="btn btn-info" style="padding: 2px 7px" data-toggle="modal"
-                                th:attr="data-target=${'#modale'+row.id}">Upload Bill
+                        <button type="button" class="btn btn-info"
+                                th:if="${row.designImg != null and row.designImg != ''}"
+                                style="padding: 2px 7px " data-toggle="modal"
+                                th:attr="data-target=${'#showDesign'+row.id}">Show Design
                         </button>
-                        <div class="modal fade" th:attr="id=${'modale'+row.id}" tabindex="-1" role="dialog"
-                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal fade" th:attr="id=${'showDesign'+row.id}" tabindex="-1" role="dialog"
+                             aria-labelledby="showDesign" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
+                                <div class="modal-content" style="height: 750px; width: 750px;">
                                     <div class="modal-header">
-                                        <h1 class="modal-title">Upload Bill</h1>
+                                        <h1 class="modal-title">Design</h1>
                                     </div>
                                     <div class="box-body">
-                                        <form method="post" th:action="${'/stocks/billUpload/' + row.id}"
-                                              enctype="multipart/form-data">
-                                            <div class="col-sm-5">
-                                                <input type="file" id="bill" name="bill" accept="image/*">
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <button type="submit" class="btn btn-info" style="padding: 2px 7px">
-                                                    Upload
-                                                </button>
-                                            </div>
-                                        </form>
+                                        <div>
+                                            <embed th:src="${'data:image/jpg;base64,' + row.designImg}" height="584px"
+                                                   width="730px">
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
@@ -85,10 +78,10 @@
                         &nbsp;
                         <button type="button" class="btn btn-info" th:if="${row.receipt != null and row.receipt != ''}"
                                 style="padding: 2px 7px " data-toggle="modal"
-                                th:attr="data-target=${'#modal'+row.id}">Show Bill
+                                th:attr="data-target=${'#showBill'+row.id}">Show Bill
                         </button>
-                        <div class="modal fade" th:attr="id=${'modal'+row.id}" tabindex="-1" role="dialog"
-                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal fade" th:attr="id=${'showBill'+row.id}" tabindex="-1" role="dialog"
+                             aria-labelledby="showBill" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content" style="height: 750px; width: 750px;">
                                     <div class="modal-header">

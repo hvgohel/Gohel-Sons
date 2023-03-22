@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout">
 <head>
-    <title>>Add or Update Stocks</title>
+    <title>Add or Update Stocks</title>
 </head>
 <body>
 <section layout:fragment="header">
@@ -12,7 +12,8 @@
     </ol>
 </section>
 <div layout:fragment="content" style="padding: 30px 20%;">
-    <form data-toggle="validator" role="form" th:object="${item}" th:action="@{/stocks/save}" method="post">
+    <form data-toggle="validator" role="form" th:object="${item}" th:action="@{/stocks/save}"
+          method="post" enctype="multipart/form-data">
         <div class="box" style="padding: 0 50px;">
             <div class="box-header with-border">
                 <h2 style="text-align: center;">Enter Stocks Details</h2>
@@ -20,22 +21,8 @@
 
             <div class="box-body">
                 <input type="hidden" th:field="*{id}"/>
-                <div class="form-group">
-                    <label for="type">Type</label>
-                    <select th:field="*{type}" class="form-control" id ="type">
-                        <option value="machine">Machine</option>
-                        <option value="fabrics">Fabrics</option>
-                        <option value="material">Material</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <input type="text" required class="form-control" th:field="*{description}" id="description" placeholder="Description"/>
-                </div>
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <input type="text" class="form-control" th:field="*{address}" id="address" placeholder="Address"/>
-                </div>
+                <input type="hidden" th:field="*{receipt}"/>
+                <input type="hidden" th:field="*{designImg}"/>
                 <div class="form-group">
                     <label for="purchaseDate">Purchase Date</label>
                     <input type="text" class="form-control" id="purchaseDate" th:field="*{purchaseDate}"
@@ -43,13 +30,34 @@
                            placeholder="DD-MM-YYYY"/>
                 </div>
                 <div class="form-group">
+                    <label for="designName">Design Name</label>
+                    <input type="text" required class="form-control" th:field="*{design}" id="designName"
+                           placeholder="Design Name"/>
+                </div>
+                <div class="form-group">
+                    <label for="color">Color</label>
+                    <input type="color" required th:field="*{color}" id="color"
+                           placeholder="Color" value="#ff0000"/>
+                </div>
+                <div class="form-group">
+                    <label for="designImage">Upload Design Image</label>
+                    <input type="file" id="designImage" class="form-control" name="designImage"
+                           accept="image/*">
+                </div>
+                <div class="form-group">
                     <label for="quantity">Quantity</label>
-                    <input type="text" class="form-control" th:field="*{quantity}" id="quantity" placeholder="Quantity meter or count"/>
+                    <input type="text" required class="form-control" th:field="*{quantity}" id="quantity"
+                           placeholder="Quantity"/>
                 </div>
                 <div class="form-group">
                     <label for="amount">Amount</label>
                     <input type="number" class="form-control" id="amount" th:field="*{amount}"
                            placeholder="Amount"/>
+                </div>
+                <div class="form-group">
+                    <label for="receiptImg">Upload Receipt</label>
+                    <input type="file" id="receiptImg" class="form-control" name="receiptImg"
+                           accept="image/*">
                 </div>
             </div>
 
